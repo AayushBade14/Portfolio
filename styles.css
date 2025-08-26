@@ -43,3 +43,17 @@ body{
 .navbar .socials a:hover{
   color: #FF9A00;
 }
+
+/* Intro */
+.intro{
+  display: flex;
+  justify-content: center;
+  margin: 2rem, 0;
+}
+
+.intro-text{
+  max-width: 1000px;
+  text-align: left;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
