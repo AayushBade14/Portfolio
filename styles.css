@@ -81,3 +81,28 @@ body{
 .intro-text p a:hover{
   color: #FF6961;
 }
+
+/* Cards */
+.card-grid{
+  display: grid;
+  grid-template-column: repeat(2, 1fr);
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+/* Card styling */
+.card {
+  background: #222;
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Responsive: on phones -> 1 column */
+@media (max-width: 600px) {
+  .card-grid {
+    grid-template-columns: 1fr; /* 1 column only */
+  }
+}
