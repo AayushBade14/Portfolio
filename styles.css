@@ -82,26 +82,32 @@ body{
 }
 
 /* Cards */
-.card-grid{
+.card-grid {
   display: grid;
-  grid-template-column: repeat(2, 1fr);
-  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
   padding: 20px;
 }
-
-/* Card styling */
 .card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #222;
-  color: white;
-  padding: 20px;
   border-radius: 12px;
-  text-align: center;
+  padding: 30px;
+  text-decoration: none;
+  color: white;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Responsive: on phones -> 1 column */
-@media (max-width: 600px) {
-  .card-grid {
-    grid-template-columns: 1fr; /* 1 column only */
-  }
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px #FF9A00;
 }
+
+.card h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
