@@ -25,6 +25,7 @@ body{
   font-size: 1.5rem;
   font-weight: bold;
   padding-left: 2rem;
+  font-family: "Space Mono", monospace, serif;
 }
 
 .navbar .socials a{
