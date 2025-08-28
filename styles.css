@@ -59,7 +59,8 @@ body{
 .intro{
   display: flex;
   justify-content: center;
-  margin: 2rem 0;
+  margin: 3rem 0;
+  padding: 3rem;
 }
 
 .intro h1 span{
