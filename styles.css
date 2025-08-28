@@ -21,6 +21,10 @@ body{
   top: 0;
 }
 
+.socials{
+  justify-content: space-around;
+}
+
 .socials img {
   transition: 0.3s ease;
 }
@@ -37,10 +41,9 @@ body{
 }
 
 .navbar .socials a{
-  margin-left: 1rem;
   text-decoration: none;
   color: #F3F2EC;
-  padding-right: 2rem;
+  padding: 1rem;
 }
 
 .navbar .socials img{
