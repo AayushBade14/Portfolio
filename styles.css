@@ -96,6 +96,23 @@ body{
   color: #FF6961;
 }
 
+.contact{
+  max-width: 90%;
+  margin-top: 2rem;
+  font-family: "Space Mono", monospace, serif;
+  font-size: 1.1rem;
+  text-align: left;
+  font-weight: bold;
+}
+
+.contact span{
+  color: #FF9A00;
+}
+
+.legal{
+  margin-top: 2rem;
+}
+
 /* Cards */
 .card-grid {
   display: grid;
@@ -105,7 +122,7 @@ body{
   padding:  2rem;
   align-items: center;
   justify-items: center;
-  max-width: 1600px;
+  max-width: 1700px;
   margin: 0 auto;
 }
 
