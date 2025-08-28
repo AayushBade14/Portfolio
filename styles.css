@@ -15,6 +15,7 @@ body{
 /* Navbar */
 .navbar{
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding: 1rem 2rem;
   background: #0F0E0E;
@@ -23,6 +24,7 @@ body{
 
 .socials{
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .socials img {
