@@ -60,7 +60,7 @@ body{
   display: flex;
   justify-content: center;
   margin: 3rem 0;
-  padding: 3rem;
+  padding: 0 3rem 3rem 3rem;
 }
 
 .intro h1 span{
