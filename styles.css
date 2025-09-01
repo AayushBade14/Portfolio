@@ -31,18 +31,18 @@ main nav .socials{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  gap: 2rem;
-  padding-right: 2rem;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  padding-right: clamp(1rem, 2.5vw, 2rem);
 }
 
 main nav .logo{
   font-size: clamp(1rem, 2.5vw, 1.5rem);
   font-weight: bold;
   font-family: "Space Mono", monospace, serif;
-  padding-left: 2rem;
+  padding-left: clamp(1rem, 2.5vw, 2rem);
 }
 
 main nav .socials a img{
-  width: 24px;
+  width: clamp(18px, 2.5vw, 24px);
   height: auto;
 }
