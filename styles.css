@@ -19,7 +19,7 @@ a {
 main{
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -160,12 +160,14 @@ main .card-grid .card img{
 
 /* Footer Section Setup */
 footer{
+  position: fixed;
+  bottom: 0;
   text-align: center;
   background: #0F0E0E;
   width: 100%;
   font-family: "Mono Space", monospace, serif;
   font-size: 1.1rem;
-  font-size: clamp(0.5rem, 2.5vw, 1rem);
+  font-size: clamp(0.4rem, 2.5vw, 0.8rem);
   font-weight: bold;
-  padding: 1rem;
+  padding: 0.4rem;
 }

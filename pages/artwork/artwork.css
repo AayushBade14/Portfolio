@@ -19,9 +19,8 @@ a {
 main{
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  min-height: 100vh;
 }
 
 /* NAVBAR Setup */
@@ -112,11 +111,11 @@ main .legal p span{
 
 main .card-grid{
   display: grid;
-  grid-template-columns: repeat(auto-fit, 1fr);
-  grid-template-rows: repeat(auto-fit, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
   gap: 3rem;
+  width: 100%;
   max-width: 150ch;
-  padding-bottom: 3rem;
+  padding: 2rem;
 }
 
 @media (max-width: 480px){
@@ -138,8 +137,10 @@ main .card-grid .card{
   overflow: hidden;
   font-family: "Mono Space", monospace, serif;
   font-size: 1.1rem;
-  height: 100%;
-  width: 40%;
+  width: 100%;
+  height: auto;
+  max-width: 400px; 
+  margin: 0 auto;
 }
 
 main .card-grid .card:hover{
@@ -165,13 +166,15 @@ main .card-grid .card img{
 
 /* Footer Section Setup */
 footer{
+  position: fixed;
+  bottom: 0;
   text-align: center;
   background: #0F0E0E;
   width: 100%;
   font-family: "Mono Space", monospace, serif;
   font-size: 1.1rem;
-  font-size: clamp(0.5rem, 2.5vw, 1rem);
+  font-size: clamp(0.4rem, 2.5vw, 0.8rem);
   font-weight: bold;
-  padding: 1rem;
+  padding: 0.4rem;
 }
 
