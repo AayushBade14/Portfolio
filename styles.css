@@ -79,21 +79,11 @@ main .intro h1 span{
   color: #FF6961;
 }
 
-/* Contact Section Setup */
-main .contact{
-  text-align: left;
-  font-family: "Space Mono", monospace, serif;
-  font-size: 1.1rem;
-  max-width: 140ch;
-  line-height: 1.6;
-  padding: 2rem;
-}
-
-main .contact p span{
+main .intro p span{
   font-weight: bold;
 }
 
-main .contact p #mail{
+main .intro p #mail{
   font-weight: normal;
   color: #FF9A00;
 }
@@ -105,9 +95,47 @@ main .legal{
   font-size: 1.1rem;
   max-width: 140ch;
   line-height: 1.6;
-  padding: 0.5rem 2rem 2rem 2rem;
+  padding: 0.3rem 2rem 2rem 2rem;
 }
 
 main .legal p span{
   font-weight: bold;
+}
+
+/* Cards Section Setup*/
+
+main .card-grid{
+  display: grid;
+  /*grid-template-columns: repeat(2, 1fr);*/
+  /*grid-template-rows: repeat(2, 1fr);*/
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+  max-width: 150ch;
+}
+
+main .card-grid .card{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: #424242;
+  border-radius: 20px;
+  font-family: "Mono Space", monospace, serif;
+  font-size: 1.1rem;
+}
+
+main .card-grid .card h3{
+  color: #F6F1E9;
+}
+
+main .card-grid .card p{
+  color: #e0e0e0;
+  text-align: center;
+  padding: 2rem;
+}
+
+main .card-grid .card img{
+  width: 10rem;
+  height: auto;
 }
