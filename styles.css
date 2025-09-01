@@ -106,11 +106,17 @@ main .legal p span{
 
 main .card-grid{
   display: grid;
-  /*grid-template-columns: repeat(2, 1fr);*/
-  /*grid-template-rows: repeat(2, 1fr);*/
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   gap: 3rem;
   max-width: 150ch;
+}
+
+@media (max-width: 480px){
+  main .card-grid{
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+  }
 }
 
 main .card-grid .card{
