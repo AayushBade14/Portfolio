@@ -51,6 +51,10 @@ main nav .logo{
   padding-left: clamp(1rem, 2.5vw, 2rem);
 }
 
+main nav .logo a{
+  color: #F6F1E9;
+}
+
 main nav .socials a img{
   width: clamp(18px, 2.5vw, 24px);
   height: auto;
@@ -150,6 +154,7 @@ main .card-grid .card:hover{
 
 main .card-grid .card h3{
   color: #F6F1E9;
+  text-align: center;
 }
 
 main .card-grid .card p{

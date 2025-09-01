@@ -115,17 +115,17 @@ main .legal p span{
 
 main .card-grid{
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
   gap: 3rem;
+  width: 100%;
   max-width: 150ch;
-  padding-bottom: 3rem;
+  padding: 2rem;
 }
 
 @media (max-width: 480px){
   main .card-grid{
     grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(auto-fit, 1fr);
     max-width: 30ch;
   }
 }
@@ -138,8 +138,13 @@ main .card-grid .card{
   gap: 1rem;
   background: #424242;
   border-radius: 20px;
+  overflow: hidden;
   font-family: "Mono Space", monospace, serif;
   font-size: 1.1rem;
+  width: 100%;
+  height: auto;
+  max-width: 400px; 
+  margin: 0 auto;
 }
 
 main .card-grid .card:hover{
@@ -159,8 +164,9 @@ main .card-grid .card p{
 }
 
 main .card-grid .card img{
-  width: 10rem;
+  width: 100%;
   height: auto;
+  object-fit: cover;
 }
 
 /* Footer Section Setup */
@@ -176,3 +182,5 @@ footer{
   font-weight: bold;
   padding: 0.4rem;
 }
+
+
