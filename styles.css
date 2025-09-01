@@ -1,3 +1,4 @@
+/*Setting to default*/
 *{
   margin: 0;
   padding: 0;
@@ -9,6 +10,12 @@ body{
   background: #212121;
 }
 
+a {
+  color: #FF9A00;
+  text-decoration: none;
+}
+
+/*The container for main content*/
 main{
   display: flex;
   flex-direction: column;
@@ -16,6 +23,7 @@ main{
   align-items: center;
 }
 
+/* NAVBAR Setup */
 main nav{
   display: flex;
   flex-direction: row;
@@ -45,4 +53,27 @@ main nav .logo{
 main nav .socials a img{
   width: clamp(18px, 2.5vw, 24px);
   height: auto;
+}
+
+/*Intro Section Setup*/
+
+main .intro{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  font-family: "Space Mono", monospace, serif;
+  color: #F6F1E9;
+  max-width: 1600px;
+  font-size: 1.1rem;
+  padding: 2rem;
+  line-height: 1.6;
+}
+
+main .intro h1{
+  padding-bottom: 1rem;
+}
+
+main .intro h1 span{
+  color: #FF6961;
 }
