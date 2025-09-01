@@ -36,7 +36,7 @@ main nav .socials{
 }
 
 main nav .logo{
-  font-size: 1.5rem;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
   font-weight: bold;
   font-family: "Space Mono", monospace, serif;
   padding-left: 2rem;
