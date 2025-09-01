@@ -32,22 +32,23 @@ main nav{
   background: #0F0E0E;
   color: #F6F1E9;
   width: 100%;
-  padding: 1rem clamp(1rem, 2.5vw, 2rem);
+  /*padding: 1rem clamp(1rem, 2.5vw, 2rem);*/
+  padding: 1rem 0;
 }
 
 main nav .socials{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   gap: clamp(1rem, 2.5vw, 2rem);
-  /*padding-right: clamp(1rem, 2.5vw, 2rem);*/
+  padding-right: clamp(1rem, 2.5vw, 2rem);
 }
 
 main nav .logo{
   font-size: clamp(1rem, 2.5vw, 1.5rem);
   font-weight: bold;
   font-family: "Space Mono", monospace, serif;
-  /*padding-left: clamp(1rem, 2.5vw, 2rem);*/
+  padding-left: clamp(1rem, 2.5vw, 2rem);
 }
 
 main nav .socials a img{
