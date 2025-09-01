@@ -78,3 +78,36 @@ main .intro h1{
 main .intro h1 span{
   color: #FF6961;
 }
+
+/* Contact Section Setup */
+main .contact{
+  text-align: left;
+  font-family: "Space Mono", monospace, serif;
+  font-size: 1.1rem;
+  max-width: 140ch;
+  line-height: 1.6;
+  padding: 2rem;
+}
+
+main .contact p span{
+  font-weight: bold;
+}
+
+main .contact p #mail{
+  font-weight: normal;
+  color: #FF9A00;
+}
+
+/* Legal Section Setup */
+main .legal{
+  text-align: left;
+  font-family: "Space Mono", monospace, serif;
+  font-size: 1.1rem;
+  max-width: 140ch;
+  line-height: 1.6;
+  padding: 0.5rem 2rem 2rem 2rem;
+}
+
+main .legal p span{
+  font-weight: bold;
+}
