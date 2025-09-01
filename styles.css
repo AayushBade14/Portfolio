@@ -56,6 +56,11 @@ main nav .socials a img{
   height: auto;
 }
 
+main nav .socials a img:hover{
+  filter: drop-shadow(0 0 12px #FF9A00);
+  cursor: pointer;
+}
+
 /*Intro Section Setup*/
 
 main .intro{
@@ -116,6 +121,7 @@ main .card-grid{
   main .card-grid{
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(4, 1fr);
+    max-width: 30ch;
   }
 }
 
@@ -129,6 +135,11 @@ main .card-grid .card{
   border-radius: 20px;
   font-family: "Mono Space", monospace, serif;
   font-size: 1.1rem;
+}
+
+main .card-grid .card:hover{
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 0 25px rgba(255, 144, 0, 0.5);
 }
 
 main .card-grid .card h3{
