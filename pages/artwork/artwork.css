@@ -21,6 +21,7 @@ main{
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  min-height: 100vh;
 }
 
 /* NAVBAR Setup */
@@ -137,8 +138,8 @@ main .card-grid .card{
   overflow: hidden;
   font-family: "Mono Space", monospace, serif;
   font-size: 1.1rem;
-  height: 40rem;
-  width: 30rem;
+  height: 100%;
+  width: 40%;
 }
 
 main .card-grid .card:hover{
@@ -159,6 +160,7 @@ main .card-grid .card p{
 main .card-grid .card img{
   width: 100%;
   height: auto;
+  object-fit: cover;
 }
 
 /* Footer Section Setup */
