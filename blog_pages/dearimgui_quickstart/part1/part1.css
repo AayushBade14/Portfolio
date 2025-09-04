@@ -228,3 +228,6 @@ main .intro .dual-figure{
   }
 }
 
+hr{
+  max-width: 150ch;
+}
