@@ -202,7 +202,7 @@ main .intro .figure img{
 
 @media(max-width: 480px){
   main .intro .figure img{
-    max-width: 35%;
+    max-width: 30ch;
     height: auto;
   }
 }
