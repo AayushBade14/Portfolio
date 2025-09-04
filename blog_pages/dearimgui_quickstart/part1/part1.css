@@ -228,3 +228,8 @@ main .intro .dual-figure{
   }
 }
 
+main .intro .dual-figure .figure {
+  max-width: 400px;
+  margin: 0 auto; 
+}
+
