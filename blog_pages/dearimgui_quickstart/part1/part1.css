@@ -199,3 +199,10 @@ main .intro .figure img{
   max-width: 50%;
   height: auto;
 }
+
+@media(max-width: 480px){
+  main .intro .figure img{
+    max-width: 20%;
+    height: auto;
+  }
+}
