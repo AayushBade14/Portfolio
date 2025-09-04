@@ -45,6 +45,10 @@ main nav .socials{
 }
 
 main nav .logo{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2rem);
   font-size: clamp(1rem, 2.5vw, 1.5rem);
   font-weight: bold;
   font-family: "Space Mono", monospace, serif;
@@ -53,6 +57,11 @@ main nav .logo{
 
 main nav .logo a{
   color: #F6F1E9;
+}
+
+main nav .logo .navigator{
+  font-size: clamp(0.4rem, 2.5vw, 1rem);
+  font-weight: normal;
 }
 
 main nav .socials a img{
