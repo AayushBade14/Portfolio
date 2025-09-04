@@ -224,7 +224,7 @@ main .intro .dual-figure{
   main .intro .dual-figure{
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(auto-fit, 1fr);
-    max-width: 100%;
+    max-width: 30ch;
   }
 }
 
