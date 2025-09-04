@@ -211,25 +211,3 @@ main .intro b{
   color: #FF6961;
 }
 
-main .intro .dual-figure{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-  gap: 3rem;
-  width: 100%;
-  max-width: 140ch;
-  padding: 2rem;
-}
-
-@media (max-width: 480px){
-  main .intro .dual-figure{
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(auto-fit, 1fr);
-    max-width: 30ch;
-  }
-}
-
-main .intro .dual-figure .figure {
-  max-width: 400px;
-  margin: 0 auto; 
-}
-
