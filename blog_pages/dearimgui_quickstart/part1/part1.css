@@ -195,3 +195,7 @@ main .intro .figure{
   padding-top: 2rem;
 }
 
+main .intro .figure img{
+  max-width: 50%;
+  height: auto;
+}
