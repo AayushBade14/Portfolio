@@ -97,6 +97,10 @@ main .intro p #mail{
   color: #FF9A00;
 }
 
+main .intro .navigator{
+  padding-bottom: 1rem;
+}
+
 /* Legal Section Setup */
 main .legal{
   text-align: left;
