@@ -32,46 +32,35 @@
         <hr noshade>
         <br>
         <br>
-        <p>Have you ever wondered? How the Hierarchy and Inspector windows in Unity-Engine are made. Those windows are constructed so beautifylly that you can change the properties of your gameobjects visually, without having to change them in code in a hope to get the value right. This editor-window is not only limited to Unity. It is also used in the Godot-Engine and it has made a place even in GTA-VI development. Take a look at <a href="#fig-1.1">Fig-1.1</a>.</p>
-        
+        <p>Have you ever wondered? How the Hierarchy and Inspector windows in Unity-Engine are made. Those windows are constructed so beautifully that you can change the properties of your gameobjects visually, without having to change them in code, in a hope to get the value right. This editor-window is not only limited to Unity. It is also used in the Godot-Engine, Unreal-Engine and Blender. Although these famous engines/applications use their own in-house GUI implementations, ImGui provides something similar for making developer and debugging tools for games and other real-time applications. Take a look at <a href="#fig-1.1">Fig-1.1</a>.</p>
         <div class="figure" id="fig-1.1">
           <img src="../../../assets/blogs/dearimgui_blog_part1_fig1.1.png"/>
           <h5>Fig-1.1</h5>
         </div>
+        <br>
+        <br>
+        <p>If the above rant was inspiring enough, let's try to understand what exactly is ImGui and how is it different. ImGui is an API (Application Programming Interface), which abstracts away all the low-level mind-exploding graphics stuff. Most important of all it is an <b>'immediate mode'</b> UI rendering API, that's what the 'I-M' in ImGui stands for. You might ask "What in the world is this immediate mode?". Don't worry, I've just the answer for this. Immediate mode graphical UI rendering APIs don't store the state objects of the widgets in memory, instead it renders/redefines these widgets every frame (every cycle of the game-loop) and thus it defines the widgets anew every frame and it's all managed internally. In short entire UI is rendered every frame. This allows for cool dynamic UIs and full-control over rendering of the UI. Which is ideal for debugging, profiling and tooling your real-time applications. And this is where it stands out from the other graphical UI rendering APIs.
+        <br>
+        <br>
+          There is another class of such APIs called <b>RmGui's</b> which stands for <b>'Retained mode graphical UI'</b>. <b>Qt</b> and <b>wxWidgets</b> are examples of such APIs, Unlike ImGui they store the state object of each widget and just manage their states using getters and setters. Retained mode APIs do event-driven updates, instead of drawing the UI each frame it renders the UI after an event takes place, like changing a value or any event that changes the UI state. This is generally more CPU efficient and thus used in many complex desktop applications, but it has overhead when managing a large scene-graph of widgets. But this doesn't give us much flexibility like ImGui in case of real-time applications. Unity and Godot have their custom retained mode implementations for most part, while unity uses some of it's IMGUI implementations for certain features/tools, but discussing that would be outside the scope of this blog. 
+        </p>
+        <br>
+        <br>
+        <p>I've written a C-style pseudo-code for your understanding of difference between immediate mode (<a href="#fig-1.2.1">Fig-1.2.1</a>) and retained mode (<a href="#fig-1.2.2">Fig-1.2.2</a>).</p>
+        <br>
+        <br>
+        <div class="dual-figure">
+          <div class="figure" id="fig-1.2.1">
+            <img src="../../../assets/blogs/dearimgui_blog_part1_fig1.2.1.png"/>
+            <h5>Fig-1.2.1</h5>
+          </div>
+          <div class="figure" id="fig-1.2.2">
+            <img src="../../../assets/blogs/dearimgui_blog_part1_fig1.2.2.png"/>
+            <h5>Fig-1.2.2</h5>
+          </div>
+        </div>
       </div>
       
-      <div class="legal">
-        <p><span>Legal:</span> Code in this website or in my GitHub account that implements an algorithm or shows a technique or art is under the <a href="https://opensource.org/licenses/MIT" target="_blank">MIT lisence</a>. And is copyrighted.</p>
-      </div>
-      
-      <div class="card-grid">
-        <a href="#" class="card">
-          <h3>1. What is DearImGui?</h3>
-          <h5>4th Sep, 2025</h5>
-          <p>This part is focused on explaining "what is ImGui?" and how is it different from other UI-rendering API's.</p>
-        </a>
-        <a href="#" class="card">
-          <h3>2. Setting up DearImGui</h3>
-          <h5>coming soon</h5>
-          <p>This part will guide you through the process of installing ImGui and setting it up with CMake</p>
-        </a>
-        <a href="#" class="card">
-          <h3>3. First window!</h3>
-          <h5>coming soon</h5>
-          <p>This part will walk you through the process of initializing ImGui and creating a hello-world window within our application window.</p>
-        </a>
-        <a href="#" class="card">
-          <h3>4. Adding widgets</h3>
-          <h5>coming soon</h5>
-          <p>In this part we'll experience the power of ImGui and implement basic widgets like sliders, buttons and create a working GameObject manager menu.</p>
-        </a>
-        <a href="#" class="card">
-          <h3>5. Styling</h3>
-          <h5>coming soon</h5>
-          <p>Till now we've been using the default ImGui windows, in this tutorial we'll be exploring styling window, adding new fonts and colors.</p>
-        </a>
-      </div>
-
       <footer>
           <p>&copy; 2025 Aayush Bade. All rights reserved.</p>
       </footer>
