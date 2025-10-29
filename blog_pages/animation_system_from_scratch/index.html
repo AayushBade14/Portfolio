@@ -8,7 +8,7 @@
     <title>Aayush Bade</title>
     
     <link href="../../assets/icons/icon.png" rel="icon" type="image/png">
-    <link href="blogs.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
 
   </head>
   <body>
@@ -26,10 +26,10 @@
       </nav>
       <div class="intro">
         <div class="navigator">
-          <a href="../../index.html">Home</a>
+          <a href="../../index.html">Home</a> :: <a href="../../pages/blogs/blogs.html">Blogs</a>
         </div>
-        <h1><span>BLOGS</span></h1>
-        <p>I document my journey in graphics and engine programming through blogs. Expect tutorials, devlogs, and deep dives into rendering techniques across OpenGL, Vulkan, and C/C++. My goal is to explain concepts in a way that makes them accessible while staying technically rigorous.</p>
+        <h1><span>DearImGui</span> Quickstart</h1>
+        <p>This will be a short blog-style tutorial series which will take you from setting up ImGui with CMake, to making basic editing/content-creation tools for your game engine. After this tutorial you will be able to implement property-editor, scene-trees and much more. But this tutorial canonly take you upto a certain point, after that you are expected to practice and refer to <a href="https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp" target="_blank">imgui_demo.cpp</a> for more implementation examples.<br><br> All the code for this tutorial will be updated in this <a href="https://github.com/AayushBade14/DearImGui-Quickstart" target="_blank">GitHub-Repository</a>. Make a note, all the implementation is done so that all the concepts are easily digestable for a first-timer and I've not taken any optimizations into account.</p>
       </div>
       
       <div class="legal">
@@ -37,31 +37,30 @@
       </div>
       
       <div class="card-grid">
-        <a href="../../blog_pages/animation_system_from_scratch/index.html" class="card">
-          <img src="../../assets/blogs/computer_animation.gif" alt="Computer-Animation-System-Tutorial-Blog" loading="lazy" draggable="false"/>
-          <h3>Animation System From Scratch</h3>
-          <p>Let's make a robust and interactive animation system from scratch for your game engine project. This series will also document my progress in building my own animation system. </p>
-        </a>
-
-        <a href="../../blog_pages/dearimgui_quickstart/index.html" class="card">
-          <img src="../../assets/blogs/dearimgui_blog.png" alt="DearImGui-Tutorial-Blogs" loading="lazy" draggable="false"/>
-          <h3>DearImGui Quickstart</h3>
-          <p>Want to create interactive editors, content creation tools, debug tools and visualization tools for your game engine? Get up and running with DearImGui-API with this blog-style tutorial. </p>
+        <a href="./part1/part1.html" class="card">
+          <h3>1. What is DearImGui?</h3>
+          <h5>4th Sep, 2025</h5>
+          <p>This part is focused on explaining "what is ImGui?" and how is it different from other UI-rendering API's.</p>
         </a>
         <a href="#" class="card">
-          <img src="../../assets/blogs/opengl_concepts_blog_coming_soon.png" alt="OpenGL-Concepts-Blogs" loading="lazy" draggable="false"/>
-          <h3>OpenGL Concepts - Coming Soon</h3>
-          <p>Want to dive into graphics programming? Start with OpenGL. From shaders to real-time rendering, these blog-style tutorials guide you step by step into the world of computer graphics.</p>
+          <h3>2. Setting up DearImGui</h3>
+          <h5>coming soon</h5>
+          <p>This part will guide you through the process of installing ImGui and setting it up with CMake</p>
         </a>
         <a href="#" class="card">
-          <img src="../../assets/blogs/devlogs_coming_soon.png" alt="Devlogs-Blogs" loading="lazy" draggable="false"/>
-          <h3>DevLogs - Coming Soon</h3>
-          <p>Follow me in my development journey through DevLogs.</p>
+          <h3>3. First window!</h3>
+          <h5>coming soon</h5>
+          <p>This part will walk you through the process of initializing ImGui and creating a hello-world window within our application window.</p>
         </a>
         <a href="#" class="card">
-          <img src="../../assets/blogs/cpp_blog_coming_soon.png" alt="Cpp-Blogs" loading="lazy" draggable="false"/>
-          <h3>C++ Concepts - Coming Soon</h3>
-          <p>Want to dive into C++? Learn C++ from basics to advanced with examples and hands-on learning.</p>
+          <h3>4. Adding widgets</h3>
+          <h5>coming soon</h5>
+          <p>In this part we'll experience the power of ImGui and implement basic widgets like sliders, buttons and create a working GameObject manager menu.</p>
+        </a>
+        <a href="#" class="card">
+          <h3>5. Styling</h3>
+          <h5>coming soon</h5>
+          <p>Till now we've been using the default ImGui windows, in this tutorial we'll be exploring styling window, adding new fonts and colors.</p>
         </a>
       </div>
 
@@ -72,6 +71,7 @@
     </main>
   </body>
 </html>
+
 
 
 
