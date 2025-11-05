@@ -32,7 +32,7 @@
         <hr noshade>
         <br>
         <br>
-        <p>Before diving deeper into Animation-Systems, let's take a step back and try to understand what is animation.<br>Earlier I mentioned that "Animation means to move things" which is kinda a crude defination. Putting it more formally, Animation is an illusion of motion created by displaying still-images in a rapid succession. In games and movies mostly two types of animations are created,<br>1. figure animations(like robots, humans, animals and much more) (<a href="#fig-1.0">Fig-1.0</a>) and<br>2. an animation for some natural-phenomenon(like wind, fire, plants and much more) (<a href="#fig-1.1">Fig-1.1</a>)<br></p>
+        <p>Before diving deeper into Animation-Systems, let's take a step back and try to understand what is animation.<br>Earlier I mentioned that "Animation means to move things" which is kinda a crude definition. Putting it more formally, Animation is an illusion of motion created by displaying still-images in a rapid succession. In games and movies mostly two types of animations are created,<br>1. figure animations(like robots, humans, animals and much more) (<a href="#fig-1.0">Fig-1.0</a>) and<br>2. an animation for some natural-phenomenon(like wind, fire, plants and much more) (<a href="#fig-1.1">Fig-1.1</a>)<br></p>
         <div class="figure" id="fig-1.0">
           <img src="https://cdnb.artstation.com/p/assets/images/images/020/513/759/original/austin-calhoun-run-5.gif?1568069446"/>
           <h5>Fig-1.0 (Animation by <a target="_blank" href="https://www.artstation.com/austauros">Austin Calhoun</a>)</h5>
@@ -56,7 +56,7 @@
         </div>
         <br>
         <br>
-        <p>In this series we'll be focusing on the Computer-Generated Animations part and try to create two-level of abstractions so that any artist who uses our tool gets tools as per his/her needs. We'll work on making keyframe-level tools which will give the artist precise, low-level control of the animation and a higher-level of abstraction, which won't give much finer controls but will make artist's life easier.<br>Any value in the engine/program which can be changed can be animated. Be it, Position, Orientation, Shape-Of-Object, Shading-Parameters, Texture-Coordinates(Used for 2D-sprite-sheet based animations), Light-Source Parameters and Camera Parameters, just to name a few.</p>
+        <p>In this series we'll be focusing on the Computer-Generated Animations part and try to create two levels of abstraction so that any artist who uses our tool gets tools as per his/her needs. We'll work on making keyframe-level tools which will give the artist precise, low-level control of the animation and a higher-level of abstraction, which won't give much finer control but will make artist's life easier.<br>Any value in the engine/program which can be changed can be animated. Be it, Position, Orientation, Shape-Of-Object, Shading-Parameters, Texture-Coordinates(Used for 2D-sprite-sheet based animations), Light-Source Parameters and Camera Parameters, just to name a few.</p>
         <br>
         <br>
         <h2><span>Why Do We See Animations?</span></h2>
@@ -72,7 +72,7 @@
         </div>
         <br>
         <br>
-        <p>The single image presented to the viewer for a short time will leave a short imprint of itself (The positive afterimage) in the visual-system for 1/16th of a second. Then our brain uses this image for filling the gap till we see another image (kinda like interpolating between frames). If we didn't have this ability then any animations or even real-life moving objects would appear like a fast-scrolling slide show (The perception of continous imagery fails to be created), and the image is said to <span>flicker</span>.<br>Depending on the lighting conditions and viewing distance and other parameters, the rate at which still-images must be played-back changes in order to maintain the perception of motion (as the persistence of vision varies). The rate at which the still-images are played-back is known as the <span>flicker-rate</span>. Note that, you must not mistake persistence of vision with perception of motion, they are both completely different phenomenons. Let's understand it with help of an example.</p>
+        <p>The single image presented to the viewer for a short time will leave a short imprint of itself (The positive afterimage) in the visual-system for 1/16th of a second. Then our brain uses this image for filling the gap till we see another image (kinda like interpolating between frames). If we didn't have this ability then any animations or even real-life moving objects would appear like a fast-scrolling slide show (The perception of continuous imagery fails to be created), and the image is said to <span>flicker</span>.<br>Depending on the lighting conditions and viewing distance and other parameters, the rate at which still-images must be played-back changes in order to maintain the perception of motion (as the persistence of vision varies). The rate at which the still-images are played-back is known as the <span>flicker-rate</span>. Note that, you must not mistake persistence of vision with perception of motion, they are both completely different phenomenona. Let's understand it with help of an example.</p>
         <br>
         <br>
         <p>Imagine rotating a light-bulb tied with a string in a circular-fashion. You'll not see the light-bulb at discrete locations but you'll see a ring formed, tracing the path of the light-bulb. This is because the persistence of vision, the after image of the bulb at angle 0 still remains while the bulb sweeps the whole circle, which effectively creates a static <span>Super-Imposition</span> of all points on the circle (See <a href="#fig-3.1">Fig-3.1</a>). Leaving you with a ring like light. Take a look at <a href="#fig-3.2">Fig-3.2</a>, it's from a fireshow but conveys the same idea.</p>
@@ -97,7 +97,7 @@
         </div>
         <br>
         <br>
-        <p>There is also a limit to what our eyes can percieve(Unless we have a <a target="_blank" href="https://naruto.fandom.com/wiki/Sharingan">sharingan</a>). This due to limitations of the receptors in our eyes and this leads to something known as a motion blur. I'll leave this one out for my next blog.</p>
+        <p>There is also a limit to what our eyes can perceive(Unless we have a <a target="_blank" href="https://naruto.fandom.com/wiki/Sharingan">sharingan</a>). This is due to limitations of the receptors in our eyes and this leads to something known as a motion blur. I'll leave this one out for my next blog.</p>
         <br>
         <br>
         <p>NEXT-BLOG: <a href="#">2. Animation Systems - Getting Technical</a></p>
