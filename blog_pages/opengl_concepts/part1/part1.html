@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aayush Bade's Portfolio Website">
+
+    <title>Aayush Bade</title>
+    
+    <link href="../../../assets/icons/icon.png" rel="icon" type="image/png">
+    <link href="part1.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <main>
+      <nav>
+        <div class="logo"><a href="../../../index.html">Aayush Bade</a></div>
+        <div class="socials">
+          <a href="https://github.com/AayushBade14" target="_blank"><img src="../../../assets/socials/github.png" alt="github-logo" loading="lazy" draggable="false"/></a>
+          <a href="https://www.linkedin.com/in/aayush-raju-bade-b268b2280/" target="_blank"><img src="../../../assets/socials/linkedin.png" alt="linkedin-logo" loading="lazy" draggable="false"/></a>
+          <a href="https://x.com/AayushBade14" target="_blank"><img src="../../../assets/socials/twitter.png" alt="twitter-logo" loading="lazy" draggable="false"/></a>
+          <a href="https://youtube.com/@aayushrajubade" target="_blank"><img src="../../../assets/socials/youtube.png" alt="youtube-logo" loading="lazy" draggable="false"/></a>
+          <a href="https://medium.com/@aayushrajubade" target="_blank"><img src="../../../assets/socials/medium.png" alt="medium-logo" loading="lazy" draggable="false"/></a>
+          <a href="https://www.artstation.com/aayushbade" target="_blank"><img src="../../../assets/socials/artstation.png" alt="artstation-logo" loading="lazy" draggable="false"/></a>
+        </div>
+      </nav>
+      <div class="intro">
+        <div class="navigator">
+          <a href="../../../index.html">Home</a> :: <a href="../../../pages/blogs/blogs.html">Blogs</a> :: <a href="../index.html">OpenGL Concepts</a>
+        </div>
+        <h1>1. Viewing in graphics - <span>Introduction</span>?</h1>
+        <hr noshade>
+        <br>
+        <br>
+        <p>Have you ever wondered, "When you specify 3D-coordinates to render something on your screen, how is it exactly presented on your 2D-screen?". This is the place where you'll get the answers to your question and in details. Given the vertices of a 3D model in a 3D-space, you perform some matrix-based transformations on those vertices, which gives you the exact integer coordinates to te pixel you want to place those vertices... This is a really crude explaination but, good to get started with. Take a look at <a href="#fig-1.1">Fig-1.1</a> to get a jist of the transformations that are applied.</p>
+        <div class="figure" id="fig-1.1">
+          <img src="../../../assets/blogs/dearimgui_blog_part1_fig1.1.png"/>
+          <h5>Fig-1.1</h5>
+        </div>
+        <br>
+        <br>
+        <p>If the above rant was inspiring enough, let's try to understand what exactly is ImGui and how is it different. ImGui is an API (Application Programming Interface), which abstracts away all the low-level mind-exploding graphics stuff. Most important of all it is an <b>'immediate mode'</b> UI rendering API, that's what the 'I-M' in ImGui stands for. You might ask "What in the world is this immediate mode?". Don't worry, I've just the answer for this. Immediate mode graphical UI rendering APIs don't store the state objects of the widgets in memory, instead it renders/redefines these widgets every frame (every cycle of the game-loop) and thus it defines the widgets anew every frame and it's all managed internally. In short entire UI is rendered every frame. This allows for cool dynamic UIs and full-control over rendering of the UI. Which is ideal for debugging, profiling and tooling your real-time applications. And this is where it stands out from the other graphical UI rendering APIs.
+        <br>
+        <br>
+          There is another class of such APIs called <b>RmGui's</b> which stands for <b>'Retained mode graphical UI'</b>. <b>Qt</b> and <b>wxWidgets</b> are examples of such APIs, Unlike ImGui they store the state object of each widget and just manage their states using getters and setters. Retained mode APIs do event-driven updates, instead of drawing the UI each frame it renders the UI after an event takes place, like changing a value or any event that changes the UI state. This is generally more CPU efficient and thus used in many complex desktop applications, but it has overhead when managing a large scene-graph of widgets. But this doesn't give us much flexibility like ImGui in case of real-time applications. Unity and Godot have their custom retained mode implementations for most part, while unity uses some of it's IMGUI implementations for certain features/tools, but discussing that would be outside the scope of this blog. 
+        </p>
+        <br>
+        <br>
+        <p>I've written a C-style pseudo-code for your understanding of difference between immediate mode (<a href="#fig-1.2.1">Fig-1.2.1</a>) and retained mode (<a href="#fig-1.2.2">Fig-1.2.2</a>).</p>
+        <br>
+        <br>
+        <div class="figure" id="fig-1.2.1">
+          <img src="../../../assets/blogs/dearimgui_blog_part1_fig1.2.1.png"/>
+          <h5>Fig-1.2.1</h5>
+        </div>
+        <div class="figure" id="fig-1.2.2">
+          <img src="../../../assets/blogs/dearimgui_blog_part1_fig1.2.2.png"/>
+          <h5>Fig-1.2.2</h5>
+        </div>
+        <br>
+        <br>
+        <p>As you can see in the pseudo-code for immediate mode, state isn't stored in memory it's just declared anew every frame. Whereas in retained mode, we first declare all the widgets outside the game-loop and set callbacks to each widget and just process events in the game-loop. Take a look at some ImGui Code (<a href="#fig-1.3">Fig-1.3</a>). Don't be scared by it, we'll be discussing all of it in my upcoming blogs.</p>
+          <div class="figure" id="fig-1.3">
+            <img src="../../../assets/blogs/dearimgui_blog_part1_sample_code.png"/>
+            <h5>Fig-1.3</h5>
+          </div>
+          <br>
+          <br>
+        <p>NEXT-BLOG: <a href="#">2. Setting up DearImGui</a></p>
+        <br>
+        <br>
+      </div>
+      
+      <footer>
+          <p>&copy; 2025 Aayush Bade. All rights reserved.</p>
+      </footer>
+      
+    </main>
+  </body>
+</html>
+
+
+
+
+

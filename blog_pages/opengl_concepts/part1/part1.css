@@ -1,0 +1,213 @@
+/*Setting to default*/
+*{
+  margin: 0;
+  padding: 0;
+  font-family: "Space Mono", monospace;
+}
+
+body{
+  color: #F6F1E9;
+  background: #212121;
+}
+
+a {
+  color: #FF9A00;
+  text-decoration: none;
+}
+
+/*The container for main content*/
+main{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* NAVBAR Setup */
+main nav{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: #0F0E0E;
+  color: #F6F1E9;
+  width: 100%;
+  /*padding: 1rem clamp(1rem, 2.5vw, 2rem);*/
+  padding: 1rem 0;
+}
+
+main nav .socials{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  padding-right: clamp(1rem, 2.5vw, 2rem);
+}
+
+main nav .logo{
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-weight: bold;
+  font-family: "Space Mono", monospace, serif;
+  padding-left: clamp(1rem, 2.5vw, 2rem);
+}
+
+main nav .logo a{
+  color: #F6F1E9;
+}
+
+main nav .socials a img{
+  width: clamp(18px, 2.5vw, 24px);
+  height: auto;
+}
+
+main nav .socials a img:hover{
+  filter: drop-shadow(0 0 12px #FF9A00);
+  cursor: pointer;
+}
+
+/*Intro Section Setup*/
+
+main .intro{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  font-family: "Space Mono", monospace, serif;
+  color: #F6F1E9;
+  max-width: 140ch;
+  font-size: 1.1rem;
+  padding: 2rem;
+  line-height: 1.6;
+}
+
+main .intro h1{
+  padding-bottom: 1rem;
+}
+
+main .intro h1 span{
+  color: #FF6961;
+}
+
+main .intro p span{
+  font-weight: bold;
+}
+
+main .intro p #mail{
+  font-weight: normal;
+  color: #FF9A00;
+}
+
+main .intro .navigator{
+  padding-bottom: 1rem;
+}
+
+/* Legal Section Setup */
+main .legal{
+  text-align: left;
+  font-family: "Space Mono", monospace, serif;
+  font-size: 1.1rem;
+  max-width: 140ch;
+  line-height: 1.6;
+  padding: 0.3rem 2rem 2rem 2rem;
+}
+
+main .legal p span{
+  font-weight: bold;
+}
+
+/* Cards Section Setup*/
+
+main .card-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap: 3rem;
+  width: 100%;
+  max-width: 140ch;
+  padding: 2rem;
+}
+
+@media (max-width: 480px){
+  main .card-grid{
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(auto-fit, 1fr);
+    max-width: 30ch;
+  }
+}
+
+main .card-grid .card{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+  background: #424242;
+  border-radius: 20px;
+  overflow: hidden;
+  font-family: "Mono Space", monospace, serif;
+  font-size: 1.1rem;
+  width: 100%;
+  height: auto;
+  max-width: 400px; 
+  margin: 0 auto;
+}
+
+main .card-grid .card:hover{
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 0 25px rgba(255, 144, 0, 0.5);
+}
+
+main .card-grid .card h3{
+  color: #F6F1E9;
+  text-align: center;
+  padding-top: 1rem;
+}
+
+main .card-grid .card p{
+  color: #e0e0e0;
+  text-align: center;
+  padding: 2rem;
+}
+
+main .card-grid .card img{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Footer Section Setup */
+footer{
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  background: #0F0E0E;
+  width: 100%;
+  font-family: "Mono Space", monospace, serif;
+  font-size: 1.1rem;
+  font-size: clamp(0.4rem, 2.5vw, 0.8rem);
+  font-weight: bold;
+  padding: 0.4rem;
+}
+
+main .intro .figure{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+}
+
+main .intro .figure img{
+  max-width: 50%;
+  height: auto;
+}
+
+@media(max-width: 480px){
+  main .intro .figure img{
+    max-width: 30ch;
+    height: auto;
+  }
+}
+
+main .intro b{
+  color: #FF6961;
+}
+
