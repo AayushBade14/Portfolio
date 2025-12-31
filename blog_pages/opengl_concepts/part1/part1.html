@@ -9,7 +9,19 @@
     
     <link href="../../../assets/icons/icon.png" rel="icon" type="image/png">
     <link href="part1.css" rel="stylesheet">
-
+    <!--For rendering Math using MathJax-->
+    <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['$$', '$$']]
+      },
+      chtml: {
+        displayAlign: 'center'
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
   </head>
   <body>
     <main>
@@ -34,39 +46,46 @@
         <br>
         <p>Have you ever wondered, "When you specify 3D-coordinates to render something on your screen, how is it exactly presented on your 2D-screen?". This is the place where you'll get the answers to your question and in details. Given the vertices of a 3D model in a 3D-space, you perform some matrix-based transformations on those vertices, which gives you the exact integer coordinates to te pixel you want to place those vertices... This is a really crude explaination but, good to get started with. Take a look at <a href="#fig-1.1">Fig-1.1</a> to get a jist of the transformations that are applied.</p>
         <div class="figure" id="fig-1.1">
-          <img src="../../../assets/blogs/dearimgui_blog_part1_fig1.1.png"/>
+          <img src="../assets/ogl_transformation_pipeline.jpg"/>
           <h5>Fig-1.1</h5>
         </div>
         <br>
         <br>
-        <p>If the above rant was inspiring enough, let's try to understand what exactly is ImGui and how is it different. ImGui is an API (Application Programming Interface), which abstracts away all the low-level mind-exploding graphics stuff. Most important of all it is an <b>'immediate mode'</b> UI rendering API, that's what the 'I-M' in ImGui stands for. You might ask "What in the world is this immediate mode?". Don't worry, I've just the answer for this. Immediate mode graphical UI rendering APIs don't store the state objects of the widgets in memory, instead it renders/redefines these widgets every frame (every cycle of the game-loop) and thus it defines the widgets anew every frame and it's all managed internally. In short entire UI is rendered every frame. This allows for cool dynamic UIs and full-control over rendering of the UI. Which is ideal for debugging, profiling and tooling your real-time applications. And this is where it stands out from the other graphical UI rendering APIs.
+        <p>"Now isn't that a scary looking transformation pipeling? Lol.. It isn't as scary as it looks. Trust me on this one". To understand this pipeline or series of transformations properly, we divide those into a series of steps. Let's tackle them one-by-one :)</p>
         <br>
         <br>
-          There is another class of such APIs called <b>RmGui's</b> which stands for <b>'Retained mode graphical UI'</b>. <b>Qt</b> and <b>wxWidgets</b> are examples of such APIs, Unlike ImGui they store the state object of each widget and just manage their states using getters and setters. Retained mode APIs do event-driven updates, instead of drawing the UI each frame it renders the UI after an event takes place, like changing a value or any event that changes the UI state. This is generally more CPU efficient and thus used in many complex desktop applications, but it has overhead when managing a large scene-graph of widgets. But this doesn't give us much flexibility like ImGui in case of real-time applications. Unity and Godot have their custom retained mode implementations for most part, while unity uses some of it's IMGUI implementations for certain features/tools, but discussing that would be outside the scope of this blog. 
-        </p>
+        <h3><b>1. Model/Object Space</b></h3>
+        <p>Any 3D-model you load into your virtual world is what we call as "in the model/object space". All the vertex positions of the model is realtive to it's local origin or coordinate-system/frame. As you can see in <a href="#fig-1.1">Fig-1.1</a> in the first stage the coordinate frame is attached to a vertex of the cuboid and that is exactly it's <span>local-coordinate-frame</span>.</p>
         <br>
         <br>
-        <p>I've written a C-style pseudo-code for your understanding of difference between immediate mode (<a href="#fig-1.2.1">Fig-1.2.1</a>) and retained mode (<a href="#fig-1.2.2">Fig-1.2.2</a>).</p>
+        <h3><b>2. World/Global Space</b></h3>
+        <p>We apply something known as a model-matrix transform to the vertices in the model/object space to bring them to the <span>global/world-space</span>. This space is the canonical (standard) coordinate frame which is fixed at the world-orign and all the other entities in your virtual game-world are placed relative to this canonical frame of reference. By placing all entities relative to this frame, we mean : "We start measuring the position of object's local-coordinate-frame from the world-orign". As you can see in <a href="#fig-1.1">Fig-1.1</a> how the virtual-camera and the cuboid(game-object) is placed relative to this global/Object space. And thus, we say that those objects are in the world/global space.</p>
         <br>
         <br>
-        <div class="figure" id="fig-1.2.1">
-          <img src="../../../assets/blogs/dearimgui_blog_part1_fig1.2.1.png"/>
-          <h5>Fig-1.2.1</h5>
+        <h3><b>3. View/Eye/Camera Space</b></h3>
+        <p>We apply something known as the View/Eye/Camera transformation to our little-vertices in the world/global space to bring them to something known as the View/Eye/Camera space. Let's call it View-space so that I don't have to oblique every other alternative name... lol. In this space we transform all other vertices so that they would appear as if they are viewed from the lens of our virtual camera in our virtual world. This ain't so complex, We just compute each vertex position w.r.t the camera position. There are some more details to it as well, but that's a discussion for the next part of this blog series.</p>
+        <br>
+        <br>
+        <h3><b>4. Canonical View Volume</b></h3>
+        <p>After we have everything set as seen from the lens of our virtual camera. We apply something known as a projection, which transforms our view-volume of the virtual camera into something known as a <span>Canonical View Volume</span> which is nothing but a standardized format for the view-volume in which: </p>
+        <div class="math">
+        $$
+        \begin{aligned}
+        X \: \in [ \: -1, \: 1 ] \\
+        Y \: \in [ \: -1, \: 1 ] \\
+        Z \: \in [ \: 0, \: 1 ] \\
+        \end{aligned}
+        $$
         </div>
-        <div class="figure" id="fig-1.2.2">
-          <img src="../../../assets/blogs/dearimgui_blog_part1_fig1.2.2.png"/>
-          <h5>Fig-1.2.2</h5>
-        </div>
+        <br>
+        <p>It's not necessary but it's what everyone in the graphics community agrees to and it's now a standard-convention that we use and the benefit of reducing the view-volume to a smaller canonical view-volume is simple, it reduces the range of values we've to work with and it's more convinient. You might be wondering "What in the hell is this view-volume?" Bear with me, i'm just about to explain this. The view volume is the spaces which your virtual-camera can actuall see, anything outside this volume is clipped, or isn't visible on your screen. Voila! It's that simple ;)</p>
         <br>
         <br>
-        <p>As you can see in the pseudo-code for immediate mode, state isn't stored in memory it's just declared anew every frame. Whereas in retained mode, we first declare all the widgets outside the game-loop and set callbacks to each widget and just process events in the game-loop. Take a look at some ImGui Code (<a href="#fig-1.3">Fig-1.3</a>). Don't be scared by it, we'll be discussing all of it in my upcoming blogs.</p>
-          <div class="figure" id="fig-1.3">
-            <img src="../../../assets/blogs/dearimgui_blog_part1_sample_code.png"/>
-            <h5>Fig-1.3</h5>
-          </div>
-          <br>
-          <br>
-        <p>NEXT-BLOG: <a href="#">2. Setting up DearImGui</a></p>
+        <h3><b>5. Viewport Transform</b></h3>
+        <p>After everything is down to the canonical-view-volume, we've only a single step remaining, we just project or squeeze this canonical-view-volume onto our viewport(Image/Window/Framebuffer) this maps our 3D canonical-view-volume to our 2D-Rectangle(screen/window) and we finally get the integer-coordinates for our individual pixel to be lit for that particlar vertex. And then our rasterizer figures out that this pixel needs to be coloured and then it runs a fragment-shader for each of these pixels, finally giving color to each of those pixels depending on the constraints specified in the fragment-shader.</p>
+        <br>
+        <br>
+        <p>NEXT-BLOG: <a href="#">2. Viewing in graphics - The Orthographic Projection</a></p>
         <br>
         <br>
       </div>

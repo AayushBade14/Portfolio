@@ -211,3 +211,14 @@ main .intro b{
   color: #FF6961;
 }
 
+/*For rendering math using MathJax*/
+.math, .math *{
+  overflow: visible !important;
+  line-height: normal !important;
+}
+
+mjx-container{
+  overflow: visible !important;
+  display: block !important;
+  text-align: left !important
+}
