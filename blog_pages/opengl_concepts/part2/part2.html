@@ -182,25 +182,29 @@
         <br>
         $$
         T = \begin{pmatrix}
-            
+            \frac{x_h' - x_l'}{x_h - x_l} & 0 & 0 & \frac{x_l' \cdot x_h - x_h' \cdot x_l}{x_h - x_l} \\
+            0 & \frac{y_h' - y_l'}{y_h - y_l} & 0 & \frac{y_l' \cdot y_h - y_h' \cdot y_l}{y_h - y_l} \\
+           0 & 0 & \frac{z_h' - z_l'}{z_h - z_l} & \frac{z_l' \cdot z_h - z_h' \cdot z_l}{z_h - z_l} \\
+           0 & 0 & 0 & 1
+           \end{pmatrix}
         $$
         <br>
         <br>
-        <h3><b>4. Canonical View Volume</b></h3>
-        <p>After we have everything set as seen from the lens of our virtual camera. We apply something known as a projection, which transforms our view-volume of the virtual camera into something known as a <span>Canonical View Volume</span> which is nothing but a standardized format for the view-volume in which: </p>
-        $$
-        \begin{array}{l}
-        X \: \in [ \: -1, \: 1 ] \\
-        Y \: \in [ \: -1, \: 1 ] \\
-        Z \: \in [ \: 0, \: 1 ] \\
-        \end{array}
-        $$
-        <br>
-        <p>It's not necessary but it's what everyone in the graphics community agrees to and it's now a standard-convention that we use and the benefit of reducing the view-volume to a smaller canonical view-volume is simple, it reduces the range of values we've to work with and it's more convinient. You might be wondering "What in the hell is this view-volume?" Bear with me, i'm just about to explain this. The view volume is the spaces which your virtual-camera can actuall see, anything outside this volume is clipped, or isn't visible on your screen. Voila! It's that simple ;)</p>
+        <p>Now, you might ask "How the hell does a cuboid map to another cuboid?", The answer is simple, the rectangular part maps the same as we did before and was well understood with the briefcase analogy. Now, for the third dimension imagine layers of things packed into the briefcase that have to be transferred in the same manner, earlier we scaled along 2 dimensions, now we also squeeze it from top so that all the stuff fits into a more compact briefcase. Watch a pro like Mr. Bean do it, fr... Lol XD.</p>
         <br>
         <br>
-        <h3><b>5. Viewport Transform</b></h3>
-        <p>After everything is down to the canonical-view-volume, we've only a single step remaining, we just project or squeeze this canonical-view-volume onto our viewport(Image/Window/Framebuffer) this maps our 3D canonical-view-volume to our 2D-Rectangle(screen/window) and we finally get the integer-coordinates for our individual pixel to be lit for that particlar vertex. And then our rasterizer figures out that this pixel needs to be coloured and then it runs a fragment-shader for each of these pixels, finally giving color to each of those pixels depending on the constraints specified in the fragment-shader.</p>
+        <div class="figure" id="fig-2.6">
+          <img src="https://i.makeagif.com/media/7-22-2017/po7WLk.gif"/>
+          <img src="https://i.pinimg.com/originals/f6/7d/58/f67d58b533228b072861ef65effb76ff.gif"/>
+          <h5>Fig-2.6: Watch a pro do it in action, projection</h5>
+        </div>
+        <br>
+        <br>
+        <p>Now, that the groundwork is out of our ways. It's time to understand what Orthographic projection truly is. Let's dive deeper into it.</p>
+        <br>
+        <br>
+        <h3><b>Understanding Orthographic Projection</b></h3>
+        <br>
         <br>
         <br>
         <p>NEXT-BLOG: <a href="#">2. Viewing in graphics - The Orthographic Projection</a></p>
