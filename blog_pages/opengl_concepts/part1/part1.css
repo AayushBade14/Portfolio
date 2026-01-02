@@ -8,6 +8,7 @@
 body{
   color: #F6F1E9;
   background: #212121;
+  overflow-x: hidden;
 }
 a {
   color: #FF9A00;
@@ -19,6 +20,8 @@ main{
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  overflow-x: hidden;
+  width: 100%;
 }
 /* NAVBAR Setup */
 main nav{
@@ -29,8 +32,10 @@ main nav{
   background: #0F0E0E;
   color: #F6F1E9;
   width: 100%;
+  max-width: 100vw;
   /*padding: 1rem clamp(1rem, 2.5vw, 2rem);*/
   padding: 1rem 0;
+  box-sizing: border-box;
 }
 main nav .socials{
   display: flex;
@@ -70,12 +75,21 @@ main .intro{
   line-height: 1.6;
   width: 100%;
   box-sizing: border-box !important;
+  overflow-x: hidden;
 }
 main .intro h1{
   padding-bottom: 1rem;
+  word-wrap: break-word;
 }
 main .intro h1 span{
   color: #FF6961;
+}
+main .intro h3{
+  word-wrap: break-word;
+}
+main .intro p{
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 main .intro p span{
   font-weight: bold;
@@ -86,6 +100,7 @@ main .intro p #mail{
 }
 main .intro .navigator{
   padding-bottom: 1rem;
+  word-wrap: break-word;
 }
 /* Legal Section Setup */
 main .legal{
@@ -97,6 +112,11 @@ main .legal{
   padding: 0.3rem 2rem 2rem 2rem !important;
   width: 100%;
   box-sizing: border-box !important;
+  overflow-x: hidden;
+}
+main .legal p{
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 main .legal p span{
   font-weight: bold;
@@ -109,6 +129,7 @@ main .card-grid{
   width: 100%;
   max-width: 140ch;
   padding: 2rem;
+  box-sizing: border-box;
 }
 @media (max-width: 480px){
   main .card-grid{
@@ -159,17 +180,20 @@ footer{
   text-align: center;
   background: #0F0E0E;
   width: 100%;
+  max-width: 100vw;
   font-family: "Mono Space", monospace, serif;
   font-size: 1.1rem;
   font-size: clamp(0.4rem, 2.5vw, 0.8rem);
   font-weight: bold;
   padding: 0.4rem;
+  box-sizing: border-box;
 }
 main .intro .figure{
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 2rem;
+  max-width: 100%;
 }
 main .intro .figure img{
   max-width: 50%;
@@ -193,4 +217,5 @@ main .intro b{
 }
 .katex {
   white-space: normal !important;
+  max-width: 100%;
 }
