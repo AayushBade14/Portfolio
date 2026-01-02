@@ -159,6 +159,7 @@
         $$
         <br>
         <br>
+        <b>
         $$
         T = \begin{pmatrix}
         \frac{x_h' - x_l'}{x_h - x_l} & 0 & \frac{x_l' \cdot x_h - x_h' \cdot x_l}{x_h - x_l} \\
@@ -166,6 +167,7 @@
         0 & 0 & 1
         \end{pmatrix}
         $$
+        </b>
         <br>
         <br>
         <p>So you might ask, "What does this matrix exactly do?". I've just got the answer for it. It takes the content of the window - \(w1\) and projects them onto window - \(w2\). In simpler terms, it is just like you take out all the things you packed inside a briefcase for a lovely vacation in the Bahamas, you take those packed-items and try to place them in the same position as you placed them into the previous briefcase into a new briefcase of different size. Take a look at the illustration in <a href="#fig-2.5">Fig-2.5</a></p>
@@ -180,6 +182,7 @@
         <p>Alas! Now you don't have much space to get some goodies from the Bahamas for your girlfriend :(<br>But, look on the positive sides, folks! We just understood how the window/rectangle mapping works in action with all the depth there is to it. Now We can apply same concept to map or project a cuboid - \(c1\) to a cuboid - \(c2\) by extending it to 3d-homogenous space and using a \(4 \times 4\) transformation matrix as follows: </p>
         <br>
         <br>
+        <b>
         $$
         T = \begin{pmatrix}
             \frac{x_h' - x_l'}{x_h - x_l} & 0 & 0 & \frac{x_l' \cdot x_h - x_h' \cdot x_l}{x_h - x_l} \\
@@ -188,6 +191,7 @@
            0 & 0 & 0 & 1
            \end{pmatrix}
         $$
+        </b>
         <br>
         <br>
         <p>Now, you might ask "How the hell does a cuboid map to another cuboid?", The answer is simple, the rectangular part maps the same as we did before and was well understood with the briefcase analogy. Now, for the third dimension imagine layers of things packed into the briefcase that have to be transferred in the same manner, earlier we scaled along 2 dimensions, now we also squeeze it from top so that all the stuff fits into a more compact briefcase. Watch a pro like Mr. Bean do it, fr... Lol XD.</p>
@@ -204,10 +208,83 @@
         <br>
         <br>
         <h3><b>Understanding Orthographic Projection</b></h3>
+        <p>Orthographic projection is nothing but a parallel projection, we send out parallel rays of ligts and it preserves the actual dimensions of an object. The viewing volume, which is the volume we define. It is nothing but bounds in 3-dimensions till where we can see objects, outside of it objects are not visible or clipped. The viewing volume remains a cuboid in case of orthographic projection. According to the OpenGL conventions, we assume the camera is pointing along \(-Z\)-axis and the view volume is axis-aligned, that is it's faces are parallel to the coordinate axes. We need to define the left, right, bottom, top, near and front bounds for the view volume cuboid. Let's say we set the bounds to \(l, r, b, t, n, f\). Take a look at <a href="#fig-2.7">Fig-2.7</a> below.</p>
         <br>
         <br>
+        <div class="figure" id="fig-2.7">
+          <img src="../assets/ortho_vv.jpg"/>
+          <h5>Fig-2.7: View volume for orthographic projection</h5>
+        </div>
         <br>
-        <p>NEXT-BLOG: <a href="#">2. Viewing in graphics - The Orthographic Projection</a></p>
+        <br>
+        <p>It is evident from the figure that the cuboid is defined as follows: <br>\(x \in [l,r] \\ y \in [b,t] \\ z \in [n,f] \)</p>
+        <br>
+        <br>
+        <p>In orthographic projection, we map/project this cuboid/view-volume we just defined above to something known as the canonical view-volume. Which as discussed in the previous blog is defined as follows: <br> \(x \in [-1, 1] \\ y \in [-1, 1] \\ z \in [0, 1]\)</p>
+        <br>
+        <br>
+        <p>It is just as we did when projecting a cube \(c1\) onto another cube \(c2\). And we can directly use that result here and plug in our values, but remember when deriving our result. We had \((x_l, y_l)\) and \((x_h, y_h)\). Similarly here we can see that it is: \((l,b,n)\) and \((r,t,f)\) & \((x_l',y_l')\) and \((x_h',y_h')\) is the coordinates we have to map to, in this case this is the canonical view-volume, so it'll be: \((-1,-1,1)\) and \((1,1,1)\). Let's plug-in these values into the result we derived earlier, into the T-matrix as follows: </p>
+        <br>
+        <br>
+        $$
+        T = \begin{pmatrix}
+            \frac{x_h' - x_l'}{x_h - x_l} & 0 & 0 & \frac{x_l' \cdot x_h - x_h' \cdot x_l}{x_h - x_l} \\
+            0 & \frac{y_h' - y_l'}{y_h - y_l} & 0 & \frac{y_l' \cdot y_h - y_h' \cdot y_l}{y_h - y_l} \\
+           0 & 0 & \frac{z_h' - z_l'}{z_h - z_l} & \frac{z_l' \cdot z_h - z_h' \cdot z_l}{z_h - z_l} \\
+           0 & 0 & 0 & 1
+           \end{pmatrix}
+        $$
+        <br>
+        <br>
+        <p>Let's call our matrix \(M_{ortho}\) as T sounds too generic :D</p>
+        <br>
+        <br>
+       $$
+        T = \begin{pmatrix}
+            \frac{(1) - (-1)}{(r) - (l)} & 0 & 0 & \frac{(-1) \cdot (r) - (1) \cdot (l)}{(r) - (l)} \\
+            0 & \frac{(1) - (-1)}{(t) - (b)} & 0 & \frac{(-1) \cdot (t) - (1) \cdot (b)}{(t) - (b)} \\
+           0 & 0 & \frac{(1) - (-1)}{(f) - (n)} & \frac{(-1) \cdot (f) - (1) \cdot (n)}{(f) - (n)} \\
+           0 & 0 & 0 & 1
+           \end{pmatrix}
+        $$
+        <br>
+        <br>
+       $$
+        M_{ortho} = \begin{pmatrix}
+            \frac{(1) + (1)}{(r) - (l)} & 0 & 0 & -\frac{(r + l)}{(r) - (l)} \\
+            0 & \frac{(1) + (1)}{(t) - (b)} & 0 & -\frac{(t + b)}{(t) - (b)} \\
+           0 & 0 & \frac{(1) + (1)}{(f) - (n)} & -\frac{(f + n)}{(f) - (n)} \\
+           0 & 0 & 0 & 1
+           \end{pmatrix}
+        $$
+        <br>
+        <br>
+        <b>
+        $$
+        M_{ortho} = \begin{pmatrix}
+            \frac{2}{r - l} & 0 & 0 & -\frac{r + l}{r - l} \\
+            0 & \frac{2}{t - b} & 0 & -\frac{t + b}{t - b} \\
+           0 & 0 & \frac{2}{f - n} & -\frac{f + n}{f - n} \\
+           0 & 0 & 0 & 1
+           \end{pmatrix}
+        $$
+        </b>
+        <br>
+        <br>
+        <p>Wow, that was a lot! We finally have our orthographic projection matrix, that maps/projects our arbitrary view-volume onto the canonical view-volume. But no projection is complete without being followed by a viewport-transform. It is nothing but projection a 2d axis-aligned rectangle onto another axis-aligned rectangle. Here we want to map this canonical view-volume which is 3d to a viewport/window, a 2d rectangle where we wanna see it. Now this sounds mind-bending right? How can we even project 3d onto 2d?? It's similar to projecting a 2d vector onto a single axis, what we call as breaking a 2d vector into it's 1d components. In simpler terms, imagine our canonical view-volume to be a stack of transparent sheets, which has some drawings on it. Now when you place them on top of each other in the right order based on it's \(z\)-value and observe it from the front, you see a beautiful image, all individual layers coming together to form a single image. Viewport transform is just like that. Take a look at <a href="#fig-2.8">Fig-2.8</a>.</p>
+        <br>
+        <br>
+        <div class="figure" id="fig-2.8">
+          <img src="../assets/vp_transform_analogy.jpg"/>
+          <img src="../assets/vp_transform_analogy_2.jpg"/>
+          <h5>Fig-2.7: Viewport transform analogy, mapping 3d view-volume to 2d rectangle</h5>
+        </div>
+        <br>
+        <br>
+        <p>Now that we've understood this, we can use the window-transform result we obtained at the start and just plug in our values. In this case our \((x_l, y_l)\) will be \((-1,-1)\) and \((x_h, y_h)\) will be \((1,1)\). For the primed-coordinates we'll have to derive one more thing. Let's assume our window/framebuffer is \(n_x\)-pixels wide and \(n_y\)-pixels tall.</p>
+        <br>
+        <br>
+        <p>NEXT-BLOG: <a href="#">3. Viewing in graphics - The Orthographic Projection</a></p>
         <br>
         <br>
       </div>
