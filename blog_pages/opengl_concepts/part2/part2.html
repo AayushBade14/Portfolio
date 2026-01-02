@@ -159,6 +159,7 @@
         $$
         <br>
         <br>
+        <div class="figure" id="result-2.1">
         <b>
         $$
         T = \begin{pmatrix}
@@ -168,6 +169,8 @@
         \end{pmatrix}
         $$
         </b>
+        <h5>Result-2.1: Window transform, rectangle projection</h5>
+        </div>
         <br>
         <br>
         <p>So you might ask, "What does this matrix exactly do?". I've just got the answer for it. It takes the content of the window - \(w1\) and projects them onto window - \(w2\). In simpler terms, it is just like you take out all the things you packed inside a briefcase for a lovely vacation in the Bahamas, you take those packed-items and try to place them in the same position as you placed them into the previous briefcase into a new briefcase of different size. Take a look at the illustration in <a href="#fig-2.5">Fig-2.5</a></p>
@@ -182,6 +185,7 @@
         <p>Alas! Now you don't have much space to get some goodies from the Bahamas for your girlfriend :(<br>But, look on the positive sides, folks! We just understood how the window/rectangle mapping works in action with all the depth there is to it. Now We can apply same concept to map or project a cuboid - \(c1\) to a cuboid - \(c2\) by extending it to 3d-homogenous space and using a \(4 \times 4\) transformation matrix as follows: </p>
         <br>
         <br>
+        <div class="figure" id="result-2.2">
         <b>
         $$
         T = \begin{pmatrix}
@@ -192,6 +196,8 @@
            \end{pmatrix}
         $$
         </b>
+        <h5>Result-2.2: 3d cuboid projection</h5>
+        </div>
         <br>
         <br>
         <p>Now, you might ask "How the hell does a cuboid map to another cuboid?", The answer is simple, the rectangular part maps the same as we did before and was well understood with the briefcase analogy. Now, for the third dimension imagine layers of things packed into the briefcase that have to be transferred in the same manner, earlier we scaled along 2 dimensions, now we also squeeze it from top so that all the stuff fits into a more compact briefcase. Watch a pro like Mr. Bean do it, fr... Lol XD.</p>
@@ -223,7 +229,7 @@
         <p>In orthographic projection, we map/project this cuboid/view-volume we just defined above to something known as the canonical view-volume. Which as discussed in the previous blog is defined as follows: <br> \(x \in [-1, 1] \\ y \in [-1, 1] \\ z \in [0, 1]\)</p>
         <br>
         <br>
-        <p>It is just as we did when projecting a cube \(c1\) onto another cube \(c2\). And we can directly use that result here and plug in our values, but remember when deriving our result. We had \((x_l, y_l)\) and \((x_h, y_h)\). Similarly here we can see that it is: \((l,b,n)\) and \((r,t,f)\) & \((x_l',y_l')\) and \((x_h',y_h')\) is the coordinates we have to map to, in this case this is the canonical view-volume, so it'll be: \((-1,-1,1)\) and \((1,1,1)\). Let's plug-in these values into the result we derived earlier, into the T-matrix as follows: </p>
+        <p>It is just as we did when projecting a cube \(c1\) onto another cube \(c2\). And we can directly use that result here and plug in our values, but remember when deriving our result. We had \((x_l, y_l)\) and \((x_h, y_h)\). Similarly here we can see that it is: \((l,b,n)\) and \((r,t,f)\) & \((x_l',y_l')\) and \((x_h',y_h')\) is the coordinates we have to map to, in this case this is the canonical view-volume, so it'll be: \((-1,-1,1)\) and \((1,1,1)\). Let's plug-in these values into the <a href="#result-2.2">result we derived earlier</a>, into the T-matrix as follows: </p>
         <br>
         <br>
         $$
@@ -259,6 +265,7 @@
         $$
         <br>
         <br>
+        <div class="figure" id="result-2.3">
         <b>
         $$
         M_{ortho} = \begin{pmatrix}
@@ -269,6 +276,8 @@
            \end{pmatrix}
         $$
         </b>
+        <h5>Result-2.3: Orthographic projection matrix</h5>
+        </div>
         <br>
         <br>
         <p>Wow, that was a lot! We finally have our orthographic projection matrix, that maps/projects our arbitrary view-volume onto the canonical view-volume. But no projection is complete without being followed by a viewport-transform. It is nothing but projection a 2d axis-aligned rectangle onto another axis-aligned rectangle. Here we want to map this canonical view-volume which is 3d to a viewport/window, a 2d rectangle where we wanna see it. Now this sounds mind-bending right? How can we even project 3d onto 2d?? It's similar to projecting a 2d vector onto a single axis, what we call as breaking a 2d vector into it's 1d components. In simpler terms, imagine our canonical view-volume to be a stack of transparent sheets, which has some drawings on it. Now when you place them on top of each other in the right order based on it's \(z\)-value and observe it from the front, you see a beautiful image, all individual layers coming together to form a single image. Viewport transform is just like that. Take a look at <a href="#fig-2.8">Fig-2.8</a>.</p>
@@ -281,10 +290,90 @@
         </div>
         <br>
         <br>
-        <p>Now that we've understood this, we can use the window-transform result we obtained at the start and just plug in our values. In this case our \((x_l, y_l)\) will be \((-1,-1)\) and \((x_h, y_h)\) will be \((1,1)\). For the primed-coordinates we'll have to derive one more thing. Let's assume our window/framebuffer is \(n_x\)-pixels wide and \(n_y\)-pixels tall.</p>
+        <p>Now that we've understood this, we can use the window-transform result we obtained at the start and just plug in our values. In this case our \((x_l, y_l)\) will be \((-1,-1)\) and \((x_h, y_h)\) will be \((1,1)\). For the primed-coordinates we'll have to derive one more thing. Let's assume our window/framebuffer is \(n_x\)-pixels wide and \(n_y\)-pixels tall. We have to be a bit clever here, Let's start by understanding a pixel, it's a box and is indexed with it's center and spans \(0.5\)-units on all 4-directions of it's center. So in this case, our \((x_l',y_l')\) wil be \((-0.5, -0.5)\) and \((x_h', y_h')\) will be \((n_x + 0.5, n_y + 0.5)\). Take a look at <a href="#fig-2.9">Fig-2.9</a> if the derivation is unclear.</p>
         <br>
         <br>
-        <p>NEXT-BLOG: <a href="#">3. Viewing in graphics - The Orthographic Projection</a></p>
+         <div class="figure" id="fig-2.9">
+          <img src="../assets/vp_transform_pixels.jpg"/>
+          <h5>Fig-2.7: Finding the mapping for viewport</h5>
+        </div>
+        <br>
+        <br>
+        <p>Now, let's plug those bad boys into the <a href="#result-2.1">formula we derived above</a> as follows: </p>
+        <br>
+        <br>
+        $$
+        T = \begin{pmatrix}
+        \frac{x_h' - x_l'}{x_h - x_l} & 0 & \frac{x_l' \cdot x_h - x_h' \cdot x_l}{x_h - x_l} \\
+        0 & \frac{y_h' - y_l'}{y_h - y_l} & \frac{y_l' \cdot y_h - y_h' \cdot y_l}{y_h - y_l} \\
+        0 & 0 & 1
+        \end{pmatrix}
+        $$
+        <br>
+        <br>
+        $$
+        T = \begin{pmatrix}
+        \frac{(n_x + 0.5) - (-0.5)}{(1) - (-1)} & 0 & \frac{(-0.5) \cdot (1) - (n_x + 0.5) \cdot (-1)}{(1) - (-1)} \\
+        0 & \frac{(n_y + 0.5) - (-0.5)}{(1) - (-1)} & \frac{(-0.5) \cdot (1) - (n_y + 0.5) \cdot (-1)}{(1) - (-1)} \\
+        0 & 0 & 1
+        \end{pmatrix}
+        $$
+        <br>
+        <br>
+        $$
+        T = \begin{pmatrix}
+        \frac{n_x}{2} & 0 & \frac{n_x - 1}{2} \\
+        0 & \frac{n_y}{2} & \frac{n_y - 1}{2} \\
+        0 & 0 & 1
+        \end{pmatrix}
+        $$
+        <br>
+        <br>
+        <p>But, this is for 2d, we need to consider \(z\)-axis aswell, although we don't change it but we want it for the depth information later when we wanna do depth-testing so to keep it we add a row and column to carry the z-coordinate without changing it as follows: </p>
+        <br>
+        <br>
+        <div class="figure" id="result-2.4">
+        <b>
+        $$
+        M_{vp} = \begin{pmatrix}
+        \frac{n_x}{2} & 0 & 0 & \frac{n_x - 1}{2} \\
+        0 & \frac{n_y}{2} & 0 & \frac{n_y - 1}{2} \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+        \end{pmatrix}
+        $$
+        </b>
+        <h5>Result-2.4: Viewport projection matrix</h5>
+        </div>
+        <br>
+        <br>
+        <p>And we call it the <a href="#result-2.4">\(M_{vp}\)</a> matrix. And finally we are ready to perform orthographic projection on any 4d vector in 3d-homogenous space. We first apply the <a href="#result-2.3">\(M_{ortho}\)</a> matrix to it, followed by the <a href="#result-2.4">\(M_{vp}\)</a> matrix to present our object onto the screen, under orthographic projection. Do note that we are using the column-major format and we multiply these transformation matriceson the left of the vector and they are applied in the right-to-left order.</p>
+        <br>
+        <br>
+        $$
+        \begin{pmatrix}
+        x_{pixel} \\
+        y_{pixel} \\
+        z_{canonical} \\
+        1
+        \end{pmatrix}
+
+        = (M_{vp} \cdot M_{ortho}) \cdot \begin{pmatrix}
+                                          x \\
+                                          y \\
+                                          z \\
+                                          1 
+                                          \end{pmatrix}
+        $$
+        <br>
+        <br>
+        <p>Now doing all that jazz, we get the exact integer-coordinates \((x_{pixel},y_{pixel})\) with which we can just index into the framebuffer for a particular pixel and we get \(z_{ndc} or z_{canonical}\) which is just the normalized \(z-coordinate \in [-1,1]\) and later after rasterization we can perform depth-testing and for that we've to map this \(z-coordinate -> [0,1]\), which can be achieved by this formula \(\frac{1 + z_{ndc}}{2}\)</p>
+        <br>
+        <br>
+        <p>Voila! We've successfully understood the math behind doing orthographic projection and viewport transformation. If you have made it till here, you are definitely a courageous one! That was a lot to grasp. But most of our groundwork is laid here and in later continuations of this blog, I'll be referring to results from here and it'll be much shorter I promise. Peace! :D</p>
+        <br>
+        <br>
+        <p>NEXT-BLOG: <a href="#">3. Viewing in graphics - The Camera Transformation</a></p>
         <br>
         <br>
       </div>
