@@ -8,7 +8,7 @@
     <title>Aayush Bade</title>
     
     <link href="../../../assets/icons/icon.png" rel="icon" type="image/png">
-    <link href="part1.css" rel="stylesheet">
+    <link href="part2.css" rel="stylesheet">
     <!-- KaTeX -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
@@ -40,26 +40,46 @@
         <div class="navigator">
           <a href="../../../index.html">Home</a> :: <a href="../../../pages/blogs/blogs.html">Blogs</a> :: <a href="../index.html">OpenGL Concepts</a>
         </div>
-        <h1>1. Viewing in graphics - <span>Introduction</span></h1>
+        <h1>2. Viewing in graphics - <span>The Orthographic Projection</span></h1>
         <hr noshade>
         <br>
         <br>
-        <p>Have you ever wondered, "When you specify 3D-coordinates to render something on your screen, how is it exactly presented on your 2D-screen?". This is the place where you'll get the answers to your question and in details. Given the vertices of a 3D model in a 3D-space, you perform some matrix-based transformations on those vertices, which gives you the exact integer coordinates to te pixel you want to place those vertices... This is a really crude explaination but, good to get started with. Take a look at <a href="#fig-1.1">Fig-1.1</a> to get a jist of the transformations that are applied.</p>
-        <div class="figure" id="fig-1.1">
-          <img src="../assets/ogl_transformation_pipeline.jpg"/>
-          <h5>Fig-1.1</h5>
+        <p>Now that we've understood all the stages that are involved in the <span>Viewing in graphics</span>. We can move ahead to the meat of this and actually start unravelling the math involved. We will skip the model-matrix transforms that if you don't remember, brings an object from the local/object-space to the global/world-space. As that will be covered in the later sections of this series where we will learn about transforms that move/scale/rotate the objects. For viewing I'm assuming you already know how the translate and scale transform works, as this will be used in the derivation of viewing concepts. I wanted to cover viewing first, I know this is a weird order, but just bear with me!</p>
+        <br>
+        <p>So, before we can get to the <span>Orthographic Projection</span> we need to understand how a basic <b>Windowing transformation</b> in 2D works. This is nothing but say we have a window - \(w1\) with bottom-left-corner having coordinates \((x_l,y_l)\) and top-right-corner having coordinates \((x_h, y_h)\) & we want to transform it into another window - \(w2\) with bottom-left-corner having coordinates \((x_l',y_l')\) and top-right-corner having coordinates \((x_h',y_h')\). Take a look at <a href="#fig-2.1">Fig-2.1</a></p>
+        <div class="figure" id="fig-2.1">
+          <img src="../assets/window_transform.jpg"/>
+          <h5>Fig-2.1</h5>
         </div>
         <br>
         <br>
-        <p>"Now isn't that a scary looking transformation pipeling? Lol.. It isn't as scary as it looks. Trust me on this one". To understand this pipeline or series of transformations properly, we divide those into a series of steps. Let's tackle them one-by-one :)</p>
+        <p>Now, that we've defined the problem, we can solve this using 3 simple steps.<br>1. <span>Step-1</span>: Translating window - \(w1\)'s left-bottom-corner to the orign.<br>2. <span>Step-2</span>: Scaling window - \(w1\) to the size of window - \(w2\).<br>3. <span>Step-3</span>: Translating window - \(w1\)'s left-bottom-corner to the position of window - \(w2\)'s left-bottom-corner.</p>
         <br>
         <br>
-        <h3><b>1. Model/Object Space</b></h3>
-        <p>Any 3D-model you load into your virtual world is what we call as "in the model/object space". All the vertex positions of the model is realtive to it's local origin or coordinate-system/frame. As you can see in <a href="#fig-1.1">Fig-1.1</a> in the first stage the coordinate frame is attached to a vertex of the cuboid and that is exactly it's <span>local-coordinate-frame</span>.</p>
+        <h3><b>1. Step-1</b></h3>
+        <p>To bring the bottom-left-corner of window - \(w1\) to the origin - \((0,0)\), we'll subtract \((x_l,y_l)\) from each of the coordinates of the points of window - \(w1\). This will make the top-right-corner coordinate - \((x_h - x_l, y_h - y_l)\). This can be put up into a 2d-homogenous / \(3 \times 3\) translation matrix as follows: </p>
         <br>
         <br>
-        <h3><b>2. World/Global Space</b></h3>
-        <p>We apply something known as a model-matrix transform to the vertices in the model/object space to bring them to the <span>global/world-space</span>. This space is the canonical (standard) coordinate frame which is fixed at the world-orign and all the other entities in your virtual game-world are placed relative to this canonical frame of reference. By placing all entities relative to this frame, we mean : "We start measuring the position of object's local-coordinate-frame from the world-orign". As you can see in <a href="#fig-1.1">Fig-1.1</a> how the virtual-camera and the cuboid(game-object) is placed relative to this global/Object space. And thus, we say that those objects are in the world/global space.</p>
+        $$
+        T_1 = 
+        \begin{pmatrix}
+        1 & 0 & -x_l \\
+        0 & 1 & -y_l \\
+        0 & 0 & 1
+        \end{pmatrix}
+        $$
+        <br>
+        <br>
+        <p>Take a look at <a href="#fig-2.2">Fig-2.2</a></p>
+        <br>
+        <br>
+        <div class="figure" id="fig-2.2">
+          <img src="../assets/window_transform_translate.jpg"/>
+          <h5>Fig-2.2</h5>
+        </div>
+        <br>
+        <br>
+        <h3><b>2. Step-2</b></h3>
         <br>
         <br>
         <h3><b>3. View/Eye/Camera Space</b></h3>
@@ -83,7 +103,7 @@
         <p>After everything is down to the canonical-view-volume, we've only a single step remaining, we just project or squeeze this canonical-view-volume onto our viewport(Image/Window/Framebuffer) this maps our 3D canonical-view-volume to our 2D-Rectangle(screen/window) and we finally get the integer-coordinates for our individual pixel to be lit for that particlar vertex. And then our rasterizer figures out that this pixel needs to be coloured and then it runs a fragment-shader for each of these pixels, finally giving color to each of those pixels depending on the constraints specified in the fragment-shader.</p>
         <br>
         <br>
-        <p>NEXT-BLOG: <a href="../part2/part2.html">2. Viewing in graphics - The Orthographic Projection</a></p>
+        <p>NEXT-BLOG: <a href="#">2. Viewing in graphics - The Orthographic Projection</a></p>
         <br>
         <br>
       </div>
