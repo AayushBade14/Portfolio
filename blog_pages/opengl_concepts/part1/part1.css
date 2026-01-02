@@ -210,3 +210,17 @@ main .intro .figure img{
 main .intro b{
   color: #FF6961;
 }
+
+
+/* Fix KaTeX breaking layout */
+.katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 0;
+}
+
+.katex {
+  white-space: normal !important;
+}
+
