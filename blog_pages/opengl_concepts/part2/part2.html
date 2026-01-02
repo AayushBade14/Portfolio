@@ -166,6 +166,26 @@
         0 & 0 & 1
         \end{pmatrix}
         $$
+        <br>
+        <br>
+        <p>So you might ask, "What does this matrix exactly do?". I've just got the answer for it. It takes the content of the window - \(w1\) and projects them onto window - \(w2\). In simpler terms, it is just like you take out all the things you packed inside a briefcase for a lovely vacation in the Bahamas, you take those packed-items and try to place them in the same position as you placed them into the previous briefcase into a new briefcase of different size. Take a look at the illustration in <a href="#fig-2.5">Fig-2.5</a></p>
+        <br>
+        <br>
+        <div class="figure" id="fig-2.5">
+          <img src="../assets/window_transform_briefcase.jpg"/>
+          <h5>Fig-2.5: Briefcase analogy</h5>
+        </div>
+        <br>
+        <br>
+        <p>Alas! Now you don't have much space to get some goodies from the Bahamas for your girlfriend :(<br>But, look on the positive sides, folks! We just understood how the window/rectangle mapping works in action with all the depth there is to it. Now We can apply same concept to map or project a cuboid - \(c1\) to a cuboid - \(c2\) by extending it to 3d-homogenous space and using a \(4 \times 4\) transformation matrix as follows: </p>
+        <br>
+        <br>
+        $$
+        T = \begin{pmatrix}
+            
+        $$
+        <br>
+        <br>
         <h3><b>4. Canonical View Volume</b></h3>
         <p>After we have everything set as seen from the lens of our virtual camera. We apply something known as a projection, which transforms our view-volume of the virtual camera into something known as a <span>Canonical View Volume</span> which is nothing but a standardized format for the view-volume in which: </p>
         $$
