@@ -3,11 +3,11 @@
   margin: 0;
   padding: 0;
   font-family: "Space Mono", monospace;
+  box-sizing: border-box;
 }
 body{
   color: #F6F1E9;
   background: #212121;
-  text-align: left !important;
 }
 a {
   color: #FF9A00;
@@ -66,22 +66,16 @@ main .intro{
   color: #F6F1E9;
   max-width: 140ch;
   font-size: 1.1rem;
-  padding: 2rem;
+  padding: 2rem !important;
   line-height: 1.6;
-  text-align: left !important;
+  width: 100%;
+  box-sizing: border-box !important;
 }
 main .intro h1{
   padding-bottom: 1rem;
-  text-align: left !important;
 }
 main .intro h1 span{
   color: #FF6961;
-}
-main .intro h3{
-  text-align: left !important;
-}
-main .intro p{
-  text-align: left !important;
 }
 main .intro p span{
   font-weight: bold;
@@ -95,15 +89,14 @@ main .intro .navigator{
 }
 /* Legal Section Setup */
 main .legal{
-  text-align: left !important;
+  text-align: left;
   font-family: "Space Mono", monospace, serif;
   font-size: 1.1rem;
   max-width: 140ch;
   line-height: 1.6;
-  padding: 0.3rem 2rem 2rem 2rem;
-}
-main .legal p{
-  text-align: left !important;
+  padding: 0.3rem 2rem 2rem 2rem !important;
+  width: 100%;
+  box-sizing: border-box !important;
 }
 main .legal p span{
   font-weight: bold;
@@ -197,7 +190,6 @@ main .intro b{
   overflow-x: auto;
   overflow-y: hidden;
   padding: 0.5rem 0;
-  text-align: center;
 }
 .katex {
   white-space: normal !important;
