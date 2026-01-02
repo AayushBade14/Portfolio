@@ -56,7 +56,7 @@
         <p>Now, that we've defined the problem, we can solve this using 3 simple steps.<br>1. <span>Step-1</span>: Translating window - \(w1\)'s left-bottom-corner to the orign.<br>2. <span>Step-2</span>: Scaling window - \(w1\) to the size of window - \(w2\).<br>3. <span>Step-3</span>: Translating window - \(w1\)'s left-bottom-corner to the position of window - \(w2\)'s left-bottom-corner.</p>
         <br>
         <br>
-        <h3><b>1. Step-1</b></h3>
+        <h3><b>Step-1</b></h3>
         <p>To bring the bottom-left-corner of window - \(w1\) to the origin - \((0,0)\), we'll subtract \((x_l,y_l)\) from each of the coordinates of the points of window - \(w1\). This will make the top-right-corner coordinate - \((x_h - x_l, y_h - y_l)\). This can be put up into a 2d-homogenous / \(3 \times 3\) translation matrix as follows: </p>
         <br>
         <br>
@@ -79,13 +79,93 @@
         </div>
         <br>
         <br>
-        <h3><b>2. Step-2</b></h3>
+        <h3><b>Step-2</b></h3>
+        <p>Now that we've our window-rectangle positioned at the origin (yeah i'll use this phrasing now so that I don't have to say this-bottom-corner all the time lol!). We will now scale it to the size of our desired window - \(w2\) and that can be done in two phases, scaling along \(X\) and \(Y\). We can get the scaling factor by dividing the desired width/height by the current width/height.<br> For \(X\): \(\frac{x_h' - x_l'}{x_h - x_l}\)<br> For \(Y\): \(\frac{y_h' - y_l'}{y_h - y_l}\)<br> This can again be put up into a 2d-homogenous / \(3 \times 3\) scaling matrix as follows: </p>
         <br>
         <br>
-        <h3><b>3. View/Eye/Camera Space</b></h3>
-        <p>We apply something known as the View/Eye/Camera transformation to our little-vertices in the world/global space to bring them to something known as the View/Eye/Camera space. Let's call it View-space so that I don't have to oblique every other alternative name... lol. In this space we transform all other vertices so that they would appear as if they are viewed from the lens of our virtual camera in our virtual world. This ain't so complex, We just compute each vertex position w.r.t the camera position. There are some more details to it as well, but that's a discussion for the next part of this blog series.</p>
+        $$
+        T_2 = 
+        \begin{pmatrix}
+        \frac{x_h' - x_l'}{x_h - x_l} & 0 & 0 \\
+        0 & \frac{y_h' - y_l'}{y_h - y_l} & 0 \\
+        0 & 0 & 1
+        \end{pmatrix}
+        $$
         <br>
         <br>
+        <p>Take a look at <a href="#fig-2.3">Fig-2.3</a></p>
+        <br>
+        <br>
+        <div class="figure" id="fig-2.3">
+          <img src="../assets/window_transform_scale.jpg"/>
+          <h5>Fig-2.3</h5>
+        </div>
+        <br>
+        <br>
+        <h3><b>Step-3</b></h3>
+        <p>Finally we just translated our freshly scaled window to the position of window - \(w2\) by adding \((x_l',y_l')\) to each points coordinate of the window-rectangle. This can again be done using a 2d-homogenous / \(3 \times 3\) translation matrix as follows: </p>
+        <br>
+        <br>
+        $$
+        T_3 = 
+        \begin{pmatrix}
+        1 & 0 & x_l' \\
+        0 & 1 & y_l' \\
+        0 & 0 & 1
+        \end{pmatrix}
+        $$
+        <br>
+        <br>
+        <p>Take a look at <a href="#fig-2.4">Fig-2.4</a></p>
+        <br>
+        <br>
+        <div class="figure" id="fig-2.4">
+          <img src="../assets/window_transform_translate_2.jpg"/>
+          <h5>Fig-2.4</h5>
+        </div>
+        <br>
+        <br>
+        <p>Finally we can convert this into a single mapping transformation matrix by chaining all these individual transforms as follows: </p>
+        <br>
+        <br>
+        $$
+        T = T_3 \cdot T_2 \cdot T_1 \\
+        $$
+        <br>
+        <br>
+        $$
+        T = \begin{pmatrix} 
+             1 & 0 & x_l' \\ 
+             0 & 1 & y_l \\ 
+             0 & 0 & 1 
+             \end{pmatrix}
+            
+             \cdot
+
+             \begin{pmatrix}
+             \frac{x_h' - x_l'}{x_h - x_l} & 0 & 0 \\
+             0 & \frac{y_h' - y_l'}{y_h - y_l} & 1 \\ 
+             0 & 0 & 1
+             \end{pmatrix}
+
+             \cdot
+
+             \begin{pmatrix}
+             1 & 0 & -x_l \\
+             0 & 1 & -y_l \\
+             0 & 0 & 1
+             \end{pmatrix}
+
+        $$
+        <br>
+        <br>
+        $$
+        T = \begin{pmatrix}
+        \frac{x_h' - x_l'}{x_h - x_l} & 0 & \frac{x_l' \cdot x_h - x_h' \cdot x_l}{x_h - x_l} \\
+        0 & \frac{y_h' - y_l'}{y_h - y_l} & \frac{y_l' \cdot y_h - y_h' \cdot y_l}{y_h - y_l} \\
+        0 & 0 & 1
+        \end{pmatrix}
+        $$
         <h3><b>4. Canonical View Volume</b></h3>
         <p>After we have everything set as seen from the lens of our virtual camera. We apply something known as a projection, which transforms our view-volume of the virtual camera into something known as a <span>Canonical View Volume</span> which is nothing but a standardized format for the view-volume in which: </p>
         $$
