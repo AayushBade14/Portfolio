@@ -57,7 +57,7 @@
         <p>Now, let's start by understanding what a virtual-camera is in the first place. It is as its name suggests, a camera that we define in code (simply mathematical-transformations) and do not mistake it by any floating object in our game world... NO! (большое нет), we apply this so-called virtual-camera transform to each and everything we render in our virtual-world and this transforms or changes objects positions as seen throught the lens of our virtual-camera. Before we define our virtual-camera using the mathematical-construct, let's undestand how basis-transformation works and what is it exactly, as this is the meat of our camera-transformation.</p>
         <br>
         <br>
-        <p>Basis vectors are orthonormal vectors, meaning that they are normalized(having magnitude = 1) and are mutually-perpendicular to each-other. Just like the <b>Canonical Basis</b>, - \(\{x,y,z\}\) which are mutually-perpendicular to each other and all have a unit volume. These basis are represented as vectors as follows:</p>
+        <p>Basis vectors are orthonormal vectors, meaning that they are normalized(having magnitude = 1) and are mutually-perpendicular to each-other. Just like the <b>Canonical Basis</b>, - \(\{x,y,z\}\) which are mutually-perpendicular to each other and all have a unit magnitude. These basis are represented as vectors as follows:</p>
         <br>
         <br>
         $$
@@ -94,300 +94,243 @@
         </div>
         <br>
         <br>
-        <p>Now, the point of this analogy was to explain the fact that any point in the world can be defined with-respect-to different frame-of-references. For example, your favourite pizza place might be 200m away from your place, but might be miles away from mine. See, all depends on the frame-of-reference, who's the observer, the observer decides it all. Take a look at <a href=></p>
+        <p>The point of this analogy was to explain the fact that any point in the world can be defined with-respect-to different frame-of-references. For example, your favourite pizza place might be 200m away from your place, but might be miles away from mine. See, all depends on the frame-of-reference, who's the observer, the observer decides it all. Take a look at <a href="#fig-3.3">Fig-3.3</a> for a better understanding.</p>
         <br>
         <br>
-        $$
-        T_2 = 
-        \begin{pmatrix}
-        \frac{x_h' - x_l'}{x_h - x_l} & 0 & 0 \\
-        0 & \frac{y_h' - y_l'}{y_h - y_l} & 0 \\
-        0 & 0 & 1
-        \end{pmatrix}
-        $$
-        <br>
-        <br>
-        <p>Take a look at <a href="#fig-2.3">Fig-2.3</a></p>
-        <br>
-        <br>
-        <div class="figure" id="fig-2.3">
-          <img src="../assets/window_transform_scale.jpg"/>
-          <h5>Fig-2.3</h5>
+        <div class="figure" id="fig-3.3">
+          <img src="../assets/frame_of_ref.jpg"/>
+          <h5>Fig-3.3: Frame of reference</h5>
         </div>
         <br>
         <br>
-        <h3><b>Step-3</b></h3>
-        <p>Finally we just translated our freshly scaled window to the position of window - \(w2\) by adding \((x_l',y_l')\) to each points coordinate of the window-rectangle. This can again be done using a 2d-homogenous / \(3 \times 3\) translation matrix as follows: </p>
+        <p>But, say that you wanna invite your girlfriend to the same pizza place for a date. Now you've to communicate the location of this pizza place to her using a frame-of-reference that she understands. You can't tell her that this place is \(0.5 \cdot x + 0.3 \cdot y\) from my place, you need to tell her the location from her home's frame-of-reference so that she can make it to the date. Telling her the location from her frame-of-reference is what we call as <b>Basis Transformation</b>.</p>
         <br>
         <br>
-        $$
-        T_3 = 
-        \begin{pmatrix}
-        1 & 0 & x_l' \\
-        0 & 1 & y_l' \\
-        0 & 0 & 1
-        \end{pmatrix}
-        $$
+        <p>This basis-transformation is nothing but expressing one set of basis vectors in terms of other. That's it, its that simple. Let's understand the math behind this from <a href="#fig-3.3">Fig-3.3</a>, it can be done in two easy steps as follows:</p>
         <br>
         <br>
-        <p>Take a look at <a href="#fig-2.4">Fig-2.4</a></p>
+        <h3><b>Step1:</b></h3>
+        <br>
+        <p>We first translate the origin of your frame-of-reference to the origin of her frame-of-reference (the Canonical frame-of-reference). We can achieve this by creating a translation matrix as follows: </p>
         <br>
         <br>
-        <div class="figure" id="fig-2.4">
-          <img src="../assets/window_transform_translate_2.jpg"/>
-          <h5>Fig-2.4</h5>
+        <div class="figure" id="result-3.1">
+          $$
+          T_{2d} = 
+          \begin{pmatrix}
+          1 & 0 & -x_e \\
+          0 & 1 & -y_e \\
+          0 & 0 & 1
+          \end{pmatrix}
+          $$
+          <h5>Result-3.1: Rotation matrix to rotate your frame-of-reference to hers</h5>
         </div>
         <br>
         <br>
-        <p>Finally we can convert this into a single mapping transformation matrix by chaining all these individual transforms as follows: </p>
+        <p>Take a look at <a href="#fig-3.4">Fig-3.4</a> for a better understanding.</p>
+        <br>
+        <br>
+        <div class="figure" id="#fig-3.4">
+          <img src="../assets/basis_translate.jpg" />
+          <h5>Fig-3.4: basis-transformation - translation</h5>
+        </div>
+        <br>
+        <br>
+        <h3><b>Step2:</b></h3>
+        <br>
+        <p>We first rotate your frame-of-reference to match the orientation of her frame-of-reference (the Canonical frame-of-reference). We can achieve this by creating a rotation matrix as follows: </p>
+        <br>
+        <br>
+        <div class="figure" id="result-3.2">
+          $$
+          R_{2d} = 
+          \begin{pmatrix}
+          x_u & x_v & 0 \\
+          y_u & y_v & 0 \\
+          0 & 0 & 1
+          \end{pmatrix}
+          $$
+          <h5>Result-3.2: Rotation matrix to rotate your frame-of-reference to hers</h5>
+        </div>
+        <br>
+        <br>
+        <p>We're again using the column major format, and the first column corresponds to the basis vector \(u\) and the second corresponds to \(v\), we've just written each in terms of the basis \(\{x,y\}\), this will rotate your frame-of-reference to hers. Take a look at <a href="#fig-3.5">Fig-3.5</a> for a better understanding.</p>
+        <br>
+        <br>
+        <div class="figure" id="#fig-3.5">
+          <img src="../assets/basis_rotate.jpg" />
+          <h5>Fig-3.5: basis-transformation - rotation</h5>
+        </div>
+        <br>
+        <br>
+        <p>Now let's accumulate both of the transforms into a single matrix, note that these are in column-major format, so the transforms are applied from right to left as follows:</p>
         <br>
         <br>
         $$
-        T = T_3 \cdot T_2 \cdot T_1 \\
+          M_{basis-change} = R_{2d} \cdot T_{2d}
         $$
         <br>
         <br>
         $$
-        T = \begin{pmatrix} 
-             1 & 0 & x_l' \\ 
-             0 & 1 & y_l \\ 
-             0 & 0 & 1 
-             \end{pmatrix}
-            
-             \cdot
+          M_{basis-change} = \begin{pmatrix}
+                            x_u & x_v & 0 \\
+                            y_u & y_v & 0 \\
+                            0 & 0 & 0
+                            \end{pmatrix}
+                            \cdot
+                            \begin{pmatrix}
+                            1 & 0 & -x_e \\
+                            0 & 1 & -y_e \\
+                            0 & 0 & 1
+                            \end{pmatrix}
+        $$
+        <br>
+        <br>
+        $$
+          M_{basis-change} = \begin{pmatrix}
+                              x_v & x_v & -x_e \\
+                              y_u & y_v & -y_e \\
+                              0 & 0 & 1
+                              \end{pmatrix}
+        $$
+        <br>
+        <br>
+        $$
+          M_{basis-change} = \begin{pmatrix}
+                              | & | & | \\
+                              u & v & e \\
+                              | & | & | \\
+                              0 & 0 & 1
+                              \end{pmatrix} ^{-1}
+        $$
+        <br>
+        <br>
+        <p>This can be extended to 3-dimensions as follows: </p>
+        <br>
+        <br>
+        <div class="figure" id="result-3.3">
+          <b>
+            $$
+              M_{basis-change} = \begin{pmatrix}
+                                  | & | & | & | \\
+                                  u & v & w & e \\
+                                  | & | & | & | \\
+                                  0 & 0 & 0 & 1
+                                  \end{pmatrix} ^{-1}
+            $$
+          </b>
+          <h5>Result-3.3: Matrix for basis-change</h5>
+        </div>
+        <br>
+        <br>
+        <p>Now, that we've understood the math behind basis-change we can finally understand the camera-transformation. Let's define our virtual-camera first. Let's say that our camera is located at the origin \(e\) and has the basis \(\{u,v,w\}\) and let's say we've additional two vectors. Gaze - where our camera looks \(g\) and top - which points to the top of our view-volume \(t\). Take a look at <a href="#fig-3.6">Fig-3.6</a> for a better understanding.</p>
+        <br>
+        <br>
+        <div class="figure" id="fig-3.6">
+          <img src="../assets/virtual-camera.jpg" />
+          <h5>Fig-3.6: Virtual camera setting</h5>
+        </div>
+        <br>
+        <br>
+        <p>Now, we understand the setting of our virtual-camera and the gaze vector \(g\) and top vector \(t\) is already known in terms of canonical basis and \(e\) is already in canonical basis as it is the camera position that we define in canonical basis. Now the only thing that is left to find the camera-basis \(\{u,v,w\}\) in terms of the gaze vector \(g\) and top vector \(t\) and the camera position \(e\). This can be done as follows: </p>
+        <br>
+        <br>
+        <p>basis vector \(w\) can be written as negative of \(g\) as seen in <a href="#fig-3.6">Fig-3.6</a></p>
+        <br>
+        <br>
+        <div class="figure" id="result-3.4">
+        $$
+          w = -\frac{g}{||g||}
+        $$
+        <h5>Result-3.4</h5>
+        </div>
+        <br>
+        <br>
+        <p>For the basis we require normalized vectors, and so we divide \(g\) by its norm or magnitude represented by the notation \(||g||\).</p>
+        <br>
+        <br>
+        <p>Now we can get the right-vector \(u\) by taking a cross-product between \(t\) and \(w\) which is quite evident from <a href="#fig-3.6">Fig-3.6</a>.</p>
+        <br>
+        <br>
+        <div class="figure" id="result-3.5">
+        $$
+          u = \frac{t \times w}{|| t \times w ||}
+        $$
+        <h5>Result-3.5</h5>
+        </div>
+        <br>
+        <br>
+        <p>Now that we've two of the three basis vector the third one \(v\) can be found by taking the cross-product of the two we know.</p>
+        <br>
+        <br>
+        <div class="figure" id="result-3.6">
+        $$
+          v = w \times u
+        $$
+        <h5>Result-3.6</h5>
+        </div>
+        <br>
+        <br>
+        <p>Now that we've found the basis for camera in terms of our canonical basis. We just plug these into <a href="#result-3.3">Result-3.3</a> and we have our camera transform.</p>
+        <br>
+        <br>
+        $$
+              M_{basis-change} = \begin{pmatrix}
+                                  | & | & | & | \\
+                                  u & v & w & e \\
+                                  | & | & | & | \\
+                                  0 & 0 & 0 & 1
+                                  \end{pmatrix} ^{-1}
+        $$
+        <br>
+        <br>
+        <p>let's call this matrix \(M_{cam}\) and using <a href="#result-3.4">Result-3.4</a>, <a href="#result-3.5">Result-3.5</a>, <a href="#result-3.6">Result-3.6</a>, we get: </p>
+        <br>
+        <br>
+        <div class="figure" id="result-3.7">
+          <b>
+        $$
+          M_{cam} = \begin{pmatrix}
+                    x_u & y_u & z_u & -x_e \\
+                    x_v & y_v & z_v & -y_e \\
+                    x_w & y_w & z_w & -z_e \\
+                    0 & 0 & 0 & 1
+                    \end{pmatrix}
+        $$
+          </b>
+          <h5>Result-3.7: Camera transformation matrix</h5>
+        </div>
+        <br>
+        <br>
+        <p>We have finally derived the camera transformation matrix. Now you just need to update this matrix every frame based on player-position and the look-at vector and you have yourself a character controller setup. And you can use it in the following way, given that you already have the \(M_{ortho}\) ready with you: </p>
+        <br>
+        <br>
+        $$
+          \begin{pmatrix}
+          x_{pixel} \\
+          y_{pixel} \\
+          z_{canonical} \\
+          1
+          \end{pmatrix}
 
-             \begin{pmatrix}
-             \frac{x_h' - x_l'}{x_h - x_l} & 0 & 0 \\
-             0 & \frac{y_h' - y_l'}{y_h - y_l} & 1 \\ 
-             0 & 0 & 1
-             \end{pmatrix}
-
-             \cdot
-
-             \begin{pmatrix}
-             1 & 0 & -x_l \\
-             0 & 1 & -y_l \\
-             0 & 0 & 1
-             \end{pmatrix}
-
+          = ( M_{vp} \cdot M_{ortho} \cdot M_{cam}) \cdot \begin{pmatrix}
+                                                          x \\
+                                                          y \\
+                                                          z \\
+                                                          1
+                                                          \end{pmatrix}
         $$
         <br>
         <br>
-        <div class="figure" id="result-2.1">
-        <b>
-        $$
-        T = \begin{pmatrix}
-        \frac{x_h' - x_l'}{x_h - x_l} & 0 & \frac{x_l' \cdot x_h - x_h' \cdot x_l}{x_h - x_l} \\
-        0 & \frac{y_h' - y_l'}{y_h - y_l} & \frac{y_l' \cdot y_h - y_h' \cdot y_l}{y_h - y_l} \\
-        0 & 0 & 1
-        \end{pmatrix}
-        $$
-        </b>
-        <h5>Result-2.1: Window transform, rectangle projection</h5>
+        <p>Wooohoooo! Give yourselves a good pat on your back and treat yourself with a cup of coffee and your favourite snack. We just have one more blog to go, in which we will learn about perspective projection and then we are done with viewing in graphics.</p>
+        <br>
+        <br>
+        <div class="figure" id="fig-3.7">
+          <img src="https://i.pinimg.com/originals/4a/61/58/4a6158ad4f30c71f4fecf224cec12eb1.gif" />
         </div>
         <br>
         <br>
-        <p>So you might ask, "What does this matrix exactly do?". I've just got the answer for it. It takes the content of the window - \(w1\) and projects them onto window - \(w2\). In simpler terms, it is just like you take out all the things you packed inside a briefcase for a lovely vacation in the Bahamas, you take those packed-items and try to place them in the same position as you placed them into the previous briefcase into a new briefcase of different size. Take a look at the illustration in <a href="#fig-2.5">Fig-2.5</a></p>
-        <br>
-        <br>
-        <div class="figure" id="fig-2.5">
-          <img src="../assets/window_transform_briefcase.jpg"/>
-          <h5>Fig-2.5: Briefcase analogy</h5>
-        </div>
-        <br>
-        <br>
-        <p>Alas! Now you don't have much space to get some goodies from the Bahamas for your girlfriend :(<br>But, look on the positive sides, folks! We just understood how the window/rectangle mapping works in action with all the depth there is to it. Now We can apply same concept to map or project a cuboid - \(c1\) to a cuboid - \(c2\) by extending it to 3d-homogenous space and using a \(4 \times 4\) transformation matrix as follows: </p>
-        <br>
-        <br>
-        <div class="figure" id="result-2.2">
-        <b>
-        $$
-        T = \begin{pmatrix}
-            \frac{x_h' - x_l'}{x_h - x_l} & 0 & 0 & \frac{x_l' \cdot x_h - x_h' \cdot x_l}{x_h - x_l} \\
-            0 & \frac{y_h' - y_l'}{y_h - y_l} & 0 & \frac{y_l' \cdot y_h - y_h' \cdot y_l}{y_h - y_l} \\
-           0 & 0 & \frac{z_h' - z_l'}{z_h - z_l} & \frac{z_l' \cdot z_h - z_h' \cdot z_l}{z_h - z_l} \\
-           0 & 0 & 0 & 1
-           \end{pmatrix}
-        $$
-        </b>
-        <h5>Result-2.2: 3d cuboid projection</h5>
-        </div>
-        <br>
-        <br>
-        <p>Now, you might ask "How the hell does a cuboid map to another cuboid?", The answer is simple, the rectangular part maps the same as we did before and was well understood with the briefcase analogy. Now, for the third dimension imagine layers of things packed into the briefcase that have to be transferred in the same manner, earlier we scaled along 2 dimensions, now we also squeeze it from top so that all the stuff fits into a more compact briefcase. Watch a pro like Mr. Bean do it, fr... Lol XD.</p>
-        <br>
-        <br>
-        <div class="figure" id="fig-2.6">
-          <img src="https://i.makeagif.com/media/7-22-2017/po7WLk.gif"/>
-          <img src="https://i.pinimg.com/originals/f6/7d/58/f67d58b533228b072861ef65effb76ff.gif"/>
-          <h5>Fig-2.6: Watch a pro do it in action, projection</h5>
-        </div>
-        <br>
-        <br>
-        <p>Now, that the groundwork is out of our ways. It's time to understand what Orthographic projection truly is. Let's dive deeper into it.</p>
-        <br>
-        <br>
-        <h3><b>Understanding Orthographic Projection</b></h3>
-        <p>Orthographic projection is nothing but a parallel projection, we send out parallel rays of ligts and it preserves the actual dimensions of an object. The viewing volume, which is the volume we define. It is nothing but bounds in 3-dimensions till where we can see objects, outside of it objects are not visible or clipped. The viewing volume remains a cuboid in case of orthographic projection. According to the OpenGL conventions, we assume the camera is pointing along \(-Z\)-axis and the view volume is axis-aligned, that is it's faces are parallel to the coordinate axes. We need to define the left, right, bottom, top, near and front bounds for the view volume cuboid. Let's say we set the bounds to \(l, r, b, t, n, f\). Take a look at <a href="#fig-2.7">Fig-2.7</a> below.</p>
-        <br>
-        <br>
-        <div class="figure" id="fig-2.7">
-          <img src="../assets/ortho_vv.jpg"/>
-          <h5>Fig-2.7: View volume for orthographic projection</h5>
-        </div>
-        <br>
-        <br>
-        <p>It is evident from the figure that the cuboid is defined as follows: <br>\(x \in [l,r] \\ y \in [b,t] \\ z \in [n,f] \)</p>
-        <br>
-        <br>
-        <p>In orthographic projection, we map/project this cuboid/view-volume we just defined above to something known as the canonical view-volume. Which as discussed in the previous blog is defined as follows: <br> \(x \in [-1, 1] \\ y \in [-1, 1] \\ z \in [0, 1]\)</p>
-        <br>
-        <br>
-        <p>It is just as we did when projecting a cube \(c1\) onto another cube \(c2\). And we can directly use that result here and plug in our values, but remember when deriving our result. We had \((x_l, y_l)\) and \((x_h, y_h)\). Similarly here we can see that it is: \((l,b,n)\) and \((r,t,f)\) & \((x_l',y_l')\) and \((x_h',y_h')\) is the coordinates we have to map to, in this case this is the canonical view-volume, so it'll be: \((-1,-1,1)\) and \((1,1,1)\). Let's plug-in these values into the <a href="#result-2.2">result we derived earlier</a>, into the T-matrix as follows: </p>
-        <br>
-        <br>
-        $$
-        T = \begin{pmatrix}
-            \frac{x_h' - x_l'}{x_h - x_l} & 0 & 0 & \frac{x_l' \cdot x_h - x_h' \cdot x_l}{x_h - x_l} \\
-            0 & \frac{y_h' - y_l'}{y_h - y_l} & 0 & \frac{y_l' \cdot y_h - y_h' \cdot y_l}{y_h - y_l} \\
-           0 & 0 & \frac{z_h' - z_l'}{z_h - z_l} & \frac{z_l' \cdot z_h - z_h' \cdot z_l}{z_h - z_l} \\
-           0 & 0 & 0 & 1
-           \end{pmatrix}
-        $$
-        <br>
-        <br>
-        <p>Let's call our matrix \(M_{ortho}\) as T sounds too generic :D</p>
-        <br>
-        <br>
-       $$
-        T = \begin{pmatrix}
-            \frac{(1) - (-1)}{(r) - (l)} & 0 & 0 & \frac{(-1) \cdot (r) - (1) \cdot (l)}{(r) - (l)} \\
-            0 & \frac{(1) - (-1)}{(t) - (b)} & 0 & \frac{(-1) \cdot (t) - (1) \cdot (b)}{(t) - (b)} \\
-           0 & 0 & \frac{(1) - (-1)}{(f) - (n)} & \frac{(-1) \cdot (f) - (1) \cdot (n)}{(f) - (n)} \\
-           0 & 0 & 0 & 1
-           \end{pmatrix}
-        $$
-        <br>
-        <br>
-       $$
-        M_{ortho} = \begin{pmatrix}
-            \frac{(1) + (1)}{(r) - (l)} & 0 & 0 & -\frac{(r + l)}{(r) - (l)} \\
-            0 & \frac{(1) + (1)}{(t) - (b)} & 0 & -\frac{(t + b)}{(t) - (b)} \\
-           0 & 0 & \frac{(1) + (1)}{(f) - (n)} & -\frac{(f + n)}{(f) - (n)} \\
-           0 & 0 & 0 & 1
-           \end{pmatrix}
-        $$
-        <br>
-        <br>
-        <div class="figure" id="result-2.3">
-        <b>
-        $$
-        M_{ortho} = \begin{pmatrix}
-            \frac{2}{r - l} & 0 & 0 & -\frac{r + l}{r - l} \\
-            0 & \frac{2}{t - b} & 0 & -\frac{t + b}{t - b} \\
-           0 & 0 & \frac{2}{f - n} & -\frac{f + n}{f - n} \\
-           0 & 0 & 0 & 1
-           \end{pmatrix}
-        $$
-        </b>
-        <h5>Result-2.3: Orthographic projection matrix</h5>
-        </div>
-        <br>
-        <br>
-        <p>Wow, that was a lot! We finally have our orthographic projection matrix, that maps/projects our arbitrary view-volume onto the canonical view-volume. But no projection is complete without being followed by a viewport-transform. It is nothing but projection a 2d axis-aligned rectangle onto another axis-aligned rectangle. Here we want to map this canonical view-volume which is 3d to a viewport/window, a 2d rectangle where we wanna see it. Now this sounds mind-bending right? How can we even project 3d onto 2d?? It's similar to projecting a 2d vector onto a single axis, what we call as breaking a 2d vector into it's 1d components. In simpler terms, imagine our canonical view-volume to be a stack of transparent sheets, which has some drawings on it. Now when you place them on top of each other in the right order based on it's \(z\)-value and observe it from the front, you see a beautiful image, all individual layers coming together to form a single image. Viewport transform is just like that. Take a look at <a href="#fig-2.8">Fig-2.8</a>.</p>
-        <br>
-        <br>
-        <div class="figure" id="fig-2.8">
-          <img src="../assets/vp_transform_analogy.jpg"/>
-          <img src="../assets/vp_transform_analogy_2.jpg"/>
-          <h5>Fig-2.7: Viewport transform analogy, mapping 3d view-volume to 2d rectangle</h5>
-        </div>
-        <br>
-        <br>
-        <p>Now that we've understood this, we can use the window-transform result we obtained at the start and just plug in our values. In this case our \((x_l, y_l)\) will be \((-1,-1)\) and \((x_h, y_h)\) will be \((1,1)\). For the primed-coordinates we'll have to derive one more thing. Let's assume our window/framebuffer is \(n_x\)-pixels wide and \(n_y\)-pixels tall. We have to be a bit clever here, Let's start by understanding a pixel, it's a box and is indexed with it's center and spans \(0.5\)-units on all 4-directions of it's center. So in this case, our \((x_l',y_l')\) wil be \((-0.5, -0.5)\) and \((x_h', y_h')\) will be \((n_x + 0.5, n_y + 0.5)\). Take a look at <a href="#fig-2.9">Fig-2.9</a> if the derivation is unclear.</p>
-        <br>
-        <br>
-         <div class="figure" id="fig-2.9">
-          <img src="../assets/vp_transform_pixels.jpg"/>
-          <h5>Fig-2.7: Finding the mapping for viewport</h5>
-        </div>
-        <br>
-        <br>
-        <p>Now, let's plug those bad boys into the <a href="#result-2.1">formula we derived above</a> as follows: </p>
-        <br>
-        <br>
-        $$
-        T = \begin{pmatrix}
-        \frac{x_h' - x_l'}{x_h - x_l} & 0 & \frac{x_l' \cdot x_h - x_h' \cdot x_l}{x_h - x_l} \\
-        0 & \frac{y_h' - y_l'}{y_h - y_l} & \frac{y_l' \cdot y_h - y_h' \cdot y_l}{y_h - y_l} \\
-        0 & 0 & 1
-        \end{pmatrix}
-        $$
-        <br>
-        <br>
-        $$
-        T = \begin{pmatrix}
-        \frac{(n_x + 0.5) - (-0.5)}{(1) - (-1)} & 0 & \frac{(-0.5) \cdot (1) - (n_x + 0.5) \cdot (-1)}{(1) - (-1)} \\
-        0 & \frac{(n_y + 0.5) - (-0.5)}{(1) - (-1)} & \frac{(-0.5) \cdot (1) - (n_y + 0.5) \cdot (-1)}{(1) - (-1)} \\
-        0 & 0 & 1
-        \end{pmatrix}
-        $$
-        <br>
-        <br>
-        $$
-        T = \begin{pmatrix}
-        \frac{n_x}{2} & 0 & \frac{n_x - 1}{2} \\
-        0 & \frac{n_y}{2} & \frac{n_y - 1}{2} \\
-        0 & 0 & 1
-        \end{pmatrix}
-        $$
-        <br>
-        <br>
-        <p>But, this is for 2d, we need to consider \(z\)-axis aswell, although we don't change it but we want it for the depth information later when we wanna do depth-testing so to keep it we add a row and column to carry the z-coordinate without changing it as follows: </p>
-        <br>
-        <br>
-        <div class="figure" id="result-2.4">
-        <b>
-        $$
-        M_{vp} = \begin{pmatrix}
-        \frac{n_x}{2} & 0 & 0 & \frac{n_x - 1}{2} \\
-        0 & \frac{n_y}{2} & 0 & \frac{n_y - 1}{2} \\
-        0 & 0 & 1 & 0 \\
-        0 & 0 & 0 & 1
-        \end{pmatrix}
-        $$
-        </b>
-        <h5>Result-2.4: Viewport projection matrix</h5>
-        </div>
-        <br>
-        <br>
-        <p>And we call it the <a href="#result-2.4">\(M_{vp}\)</a> matrix. And finally we are ready to perform orthographic projection on any 4d vector in 3d-homogenous space. We first apply the <a href="#result-2.3">\(M_{ortho}\)</a> matrix to it, followed by the <a href="#result-2.4">\(M_{vp}\)</a> matrix to present our object onto the screen, under orthographic projection. Do note that we are using the column-major format and we multiply these transformation matriceson the left of the vector and they are applied in the right-to-left order.</p>
-        <br>
-        <br>
-        $$
-        \begin{pmatrix}
-        x_{pixel} \\
-        y_{pixel} \\
-        z_{canonical} \\
-        1
-        \end{pmatrix}
-
-        = (M_{vp} \cdot M_{ortho}) \cdot \begin{pmatrix}
-                                          x \\
-                                          y \\
-                                          z \\
-                                          1 
-                                          \end{pmatrix}
-        $$
-        <br>
-        <br>
-        <p>Now doing all that jazz, we get the exact integer-coordinates \((x_{pixel},y_{pixel})\) with which we can just index into the framebuffer for a particular pixel and we get \(z_{ndc} or z_{canonical}\) which is just the normalized \(z-coordinate \in [-1,1]\) and later after rasterization we can perform depth-testing and for that we've to map this \(z-coordinate -> [0,1]\), which can be achieved by this formula \(\frac{1 + z_{ndc}}{2}\)</p>
-        <br>
-        <br>
-        <p>Voila! We've successfully understood the math behind doing orthographic projection and viewport transformation. If you have made it till here, you are definitely a courageous one! That was a lot to grasp. But most of our groundwork is laid here and in later continuations of this blog, I'll be referring to results from here and it'll be much shorter I promise. Peace! :D</p>
-        <br>
-        <br>
-        <p>NEXT-BLOG: <a href="#">3. Viewing in graphics - The Camera Transformation</a></p>
+        <p>NEXT-BLOG: <a href="#">4. Viewing in graphics - The Perspective Projection</a></p>
         <br>
         <br>
       </div>
