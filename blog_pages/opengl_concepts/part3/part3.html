@@ -54,7 +54,7 @@
         </div>
         <br>
         <br>
-        <p>Now, let's start by understanding what a virtual-camera is in the first place. It is as its name suggests, a camera that we define in code (simply mathematical-transformations) and do not mistake it by any floating object in our game world... NO! (большое нет), we apply this so-called virtual-camera transform to each and everything we render in our virtual-world and this transforms or changes objects positions as seen throught the lens of our virtual-camera. Before we define our virtual-camera using the mathematical-construct, let's undestand how basis-transformation works and what is it exactly, as this is the meat of our camera-transformation.</p>
+        <p>Now, let's start by understanding what a virtual-camera is in the first place. It is as its name suggests, a camera that we define in code (simply mathematical-transformations) and do not mistake it by any floating object in our game world... NO! (большое нет), we apply this so-called virtual-camera transform to each and everything we render in our virtual-world and this transforms or changes objects positions as seen through the lens of our virtual-camera. Before we define our virtual-camera using the mathematical-construct, let's undestand how basis-transformation works and what is it exactly, as this is the meat of our camera-transformation.</p>
         <br>
         <br>
         <p>Basis vectors are orthonormal vectors, meaning that they are normalized(having magnitude = 1) and are mutually-perpendicular to each-other. Just like the <b>Canonical Basis</b>, - \(\{x,y,z\}\) which are mutually-perpendicular to each other and all have a unit magnitude. These basis are represented as vectors as follows:</p>
@@ -103,7 +103,7 @@
         </div>
         <br>
         <br>
-        <p>But, say that you wanna invite your girlfriend to the same pizza place for a date. Now you've to communicate the location of this pizza place to her using a frame-of-reference that she understands. You can't tell her that this place is \(0.5 \cdot x + 0.3 \cdot y\) from my place, you need to tell her the location from her home's frame-of-reference so that she can make it to the date. Telling her the location from her frame-of-reference is what we call as <b>Basis Transformation</b>.</p>
+        <p>But, say that you wanna invite your girlfriend to the same pizza place for a date. Now you've to communicate the location of this pizza place to her using a frame-of-reference that she understands. You can't tell her that this place is \(0.5 \cdot x + 0.3 \cdot y\) from my place, you need to tell her the location from her home's frame-of-reference so that she can make it to the date. Telling her the location from her frame-of-reference is what we call as <b>Basis/Frame Transformation</b>. Note that we are using these terms loosely, basis transformation is actually related when we change the basis-vectors but keep the origin fixed, and frame-transformation involves change of basis-vectors and also the origin. So, for this blog we will use these terms to mean the same. "Mathematicians are gonna kill me for sure! Lol.."</p>
         <br>
         <br>
         <p>This basis-transformation is nothing but expressing one set of basis vectors in terms of other. That's it, its that simple. Let's understand the math behind this from <a href="#fig-3.3">Fig-3.3</a>, it can be done in two easy steps as follows:</p>
@@ -118,12 +118,12 @@
           $$
           T_{2d} = 
           \begin{pmatrix}
-          1 & 0 & -x_e \\
-          0 & 1 & -y_e \\
+          1 & 0 & x_e \\
+          0 & 1 & y_e \\
           0 & 0 & 1
           \end{pmatrix}
           $$
-          <h5>Result-3.1: Rotation matrix to rotate your frame-of-reference to hers</h5>
+          <h5>Result-3.1: Translation matrix to translate your frame-of-reference's origin to hers</h5>
         </div>
         <br>
         <br>
@@ -138,15 +138,15 @@
         <br>
         <h3><b>Step2:</b></h3>
         <br>
-        <p>We first rotate your frame-of-reference to match the orientation of her frame-of-reference (the Canonical frame-of-reference). We can achieve this by creating a rotation matrix as follows: </p>
+        <p>We then rotate your frame-of-reference to match the orientation of her frame-of-reference (the Canonical frame-of-reference). We can achieve this by creating a rotation matrix as follows: </p>
         <br>
         <br>
         <div class="figure" id="result-3.2">
           $$
           R_{2d} = 
           \begin{pmatrix}
-          x_u & x_v & 0 \\
-          y_u & y_v & 0 \\
+          u_x & v_x & 0 \\
+          u_y & v_y & 0 \\
           0 & 0 & 1
           \end{pmatrix}
           $$
@@ -154,7 +154,7 @@
         </div>
         <br>
         <br>
-        <p>We're again using the column major format, and the first column corresponds to the basis vector \(u\) and the second corresponds to \(v\), we've just written each in terms of the basis \(\{x,y\}\), this will rotate your frame-of-reference to hers. Take a look at <a href="#fig-3.5">Fig-3.5</a> for a better understanding.</p>
+        <p>We're again using the column major format, and the first column corresponds to the basis vector \(u\) and the second corresponds to \(v\). Also, \(u_x\) means component/projection of vector \(u\) along \(x\), we've just written each in terms of the basis \(\{x,y\}\), this will rotate your frame-of-reference to hers. Take a look at <a href="#fig-3.5">Fig-3.5</a> for a better understanding.</p>
         <br>
         <br>
         <div class="figure" id="#fig-3.5">
@@ -167,32 +167,39 @@
         <br>
         <br>
         $$
-          M_{basis-change} = R_{2d} \cdot T_{2d}
+          M = R_{2d} \cdot T_{2d}
         $$
         <br>
         <br>
         $$
-          M_{basis-change} = \begin{pmatrix}
+          M = \begin{pmatrix}
                             x_u & x_v & 0 \\
                             y_u & y_v & 0 \\
                             0 & 0 & 0
                             \end{pmatrix}
                             \cdot
                             \begin{pmatrix}
-                            1 & 0 & -x_e \\
-                            0 & 1 & -y_e \\
+                            1 & 0 & x_e \\
+                            0 & 1 & y_e \\
                             0 & 0 & 1
                             \end{pmatrix}
         $$
         <br>
         <br>
         $$
-          M_{basis-change} = \begin{pmatrix}
-                              x_v & x_v & -x_e \\
-                              y_u & y_v & -y_e \\
+          M = \begin{pmatrix}
+                              | & | & | \\
+                              u & v & e \\
+                              | & | & | \\
                               0 & 0 & 1
                               \end{pmatrix}
         $$
+        <br>
+        <br>
+        <p>Now, if we apply this transformation to the vector associated with the pizza place, defined with with-respect-to your frame-of-reference \(v_p\). It will transform \(v_p\) to \(v_p'\), which is just the same place, but with-respect-to your girlfriend's frame-of-reference.</p>
+        <br>
+        <br>
+        <p>But in our case we're more interested in bringing a vector defined in the canonical-frame to our specified frame, which is the camera-frame. Connecting this to the analogy of pizza place and girlfriend. Given any vector \(v_p'\) to the pizza place with-respect-to your girlfriend's frame-of-reference, we want to find \(v_p\) which is in your frame-of-reference. In short, our basis-change matrix is basically the inverse of what we had before \(M_{basis-change} = M^{-1}\)</p>
         <br>
         <br>
         $$
@@ -284,18 +291,111 @@
         $$
         <br>
         <br>
+        <p>This can be expanded as follows: </p>
+        <br>
+        <br>
+        $$
+        M_{basis-change} = \begin{pmatrix} \begin{pmatrix}
+                                  u_x & v_x & w_x & 0 \\
+                                  u_y & v_y & w_y & 0 \\
+                                  u_z & v_z & w_z & 0 \\
+                                  0 & 0 & 0 & 1
+        \end{pmatrix} \cdot \begin{pmatrix}
+                             1 & 0 & 0 & x_e \\
+                             0 & 1 & 0 & y_e \\
+                             0 & 0 & 1 & z_e \\
+                             0 & 0 & 0 & 1
+                            \end{pmatrix}
+        \end{pmatrix} ^ {-1}
+        $$
+        <br>
+        <br>
+        <p>Now we can make use of the inverse-property of matrices: \((A \cdot B)^{-1} = B^{-1} \cdot A^{-1}\)</p>
+        <br>
+        <br>
+        $$
+        M_{basis-change} = \begin{pmatrix}
+                             1 & 0 & 0 & x_e \\
+                             0 & 1 & 0 & y_e \\
+                             0 & 0 & 1 & z_e \\
+                             0 & 0 & 0 & 1
+        \end{pmatrix}^{-1} \cdot \begin{pmatrix}
+                            u_x & v_x & w_x & 0 \\
+                            u_y & v_y & w_y & 0 \\
+                            u_z & v_z & w_z & 0 \\
+                            0 & 0 & 0 & 1
+        \end{pmatrix}^{-1}
+        $$
+        <br>
+        <br>
+        <p>Now the inverse of the translation part will just flip the signs and for the rotation part we've to find the inverse for-real. But don't worry, "Matrix property comes to our rescue!". It is known that inverse of a orthonormal square-matrix is equivalent to its transpose. Let's apply that.</p>
+        <br>
+        <br>
+        $$
+        M_{basis-change} = \begin{pmatrix}
+                             1 & 0 & 0 & -x_e \\
+                             0 & 1 & 0 & -y_e \\
+                             0 & 0 & 1 & -z_e \\
+                             0 & 0 & 0 & 1
+        \end{pmatrix} \cdot \begin{pmatrix}
+                            u_x & v_x & w_x & 0 \\
+                            u_y & v_y & w_y & 0 \\
+                            u_z & v_z & w_z & 0 \\
+                            0 & 0 & 0 & 1
+        \end{pmatrix}^{T}
+        $$
+        <br>
+        <br>
+        $$
+        M_{basis-change} = \begin{pmatrix}
+                             1 & 0 & 0 & -x_e \\
+                             0 & 1 & 0 & -y_e \\
+                             0 & 0 & 1 & -z_e \\
+                             0 & 0 & 0 & 1
+        \end{pmatrix} \cdot \begin{pmatrix}
+                            u_x & u_y & u_z & 0 \\
+                            v_x & v_y & v_z & 0 \\
+                            w_x & w_y & w_z & 0 \\
+                            0 & 0 & 0 & 1
+        \end{pmatrix}
+        $$
+        <br>
+        <br>
+        $$
+        M_{basis-change} = \begin{pmatrix}
+                            u_x & u_y & u_z & -x_e \\
+                            v_x & v_y & v_z & -y_e \\
+                            w_x & w_y & w_z & -z_e \\
+                            0 & 0 & 0 & 1
+                            \end{pmatrix}
+        $$
+        <br>
+        <br>
+        <p>We change \(e\)'s coordinates with-respect-to our camera-frame, by taking dot-product with each of the basis vectors of our camera. As the translation must happen with with-respect-to the camera</p>
+        <br>
+        <br>
+        $$
+        M_{basis-change} = \begin{pmatrix}
+                            u_x & u_y & u_z & -(u \cdot e) \\
+                            v_x & v_y & v_z & -(v \cdot e) \\
+                            w_x & w_y & w_z & -(w \cdot e) \\
+                            0 & 0 & 0 & 1
+                            \end{pmatrix}
+        $$
+        <br>
+        <br>
         <p>let's call this matrix \(M_{cam}\) and using <a href="#result-3.4">Result-3.4</a>, <a href="#result-3.5">Result-3.5</a>, <a href="#result-3.6">Result-3.6</a>, we get: </p>
         <br>
         <br>
         <div class="figure" id="result-3.7">
           <b>
         $$
-          M_{cam} = \begin{pmatrix}
-                    x_u & y_u & z_u & -x_e \\
-                    x_v & y_v & z_v & -y_e \\
-                    x_w & y_w & z_w & -z_e \\
-                    0 & 0 & 0 & 1
-                    \end{pmatrix}
+        M_{cam} = \begin{pmatrix}
+                            u_x & u_y & u_z & -(u \cdot e) \\
+                            v_x & v_y & v_z & -(v \cdot e) \\
+                            w_x & w_y & w_z & -(w \cdot e) \\
+                            0 & 0 & 0 & 1
+                            \end{pmatrix}
         $$
           </b>
           <h5>Result-3.7: Camera transformation matrix</h5>
