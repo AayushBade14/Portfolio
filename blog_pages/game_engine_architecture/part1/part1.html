@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aayush Bade's Portfolio Website">
+
+    <title>Aayush Bade</title>
+    
+    <link href="../../../assets/icons/icon.png" rel="icon" type="image/png">
+    <link href="part1.css" rel="stylesheet">
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      { left: '$$', right: '$$', display: true },
+      { left: '\\(', right: '\\)', display: false }
+    ],
+    ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  });">
+</script>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <main>
+      <nav>
+        <div class="logo"><a href="../../../index.html">Aayush Bade</a></div>
+        <div class="socials">
+          <a href="https://github.com/AayushBade14" target="_blank"><img src="../../../assets/socials/github.png" alt="github-logo" loading="lazy" draggable="false"/></a>
+          <a href="https://www.linkedin.com/in/aayush-raju-bade-b268b2280/" target="_blank"><img src="../../../assets/socials/linkedin.png" alt="linkedin-logo" loading="lazy" draggable="false"/></a>
+          <a href="https://x.com/AayushBade14" target="_blank"><img src="../../../assets/socials/twitter.png" alt="twitter-logo" loading="lazy" draggable="false"/></a>
+          <a href="https://youtube.com/@aayushrajubade" target="_blank"><img src="../../../assets/socials/youtube.png" alt="youtube-logo" loading="lazy" draggable="false"/></a>
+          <a href="https://medium.com/@aayushrajubade" target="_blank"><img src="../../../assets/socials/medium.png" alt="medium-logo" loading="lazy" draggable="false"/></a>
+          <a href="https://www.artstation.com/aayushbade" target="_blank"><img src="../../../assets/socials/artstation.png" alt="artstation-logo" loading="lazy" draggable="false"/></a>
+        </div>
+      </nav>
+      <div class="intro">
+        <div class="navigator">
+          <a href="../../../index.html">Home</a> :: <a href="../../../pages/blogs/blogs.html">Blogs</a> :: <a href="../index.html">GameEngine Architecture</a>
+        </div>
+        <h1>1. Subsystem - <span>Creation/Destruction</span></h1>
+        <hr noshade>
+        <br>
+        <br>
+        <p>You all must've faced this problem at-least once while building a complex software with multiple dependent subsystems, "How to initialize and destroy these systems in the right order?". This blog is aimed to answer just that and we will be walking through different design choices and their pros and cons to arrive at something that works all the time and can be relied on. Note that here by dependent subsystems I don't mean tightly-coupled systems, rather I mean different subsystems crucial to the engine and which cannot work without initialization of other. For example, say that have the following subsystems: </p>
+        <br>
+        <br>
+        <p>1. Logger: A subsystem responsible for logging into a engine log-file. <br> 2. MemoryManager: Which is say a custom allocator which is responsible for allocating memory for the engine objects. <br> 3. RenderManager: Handles all the tasks related to rendering in the engine.</p>
+        <br>
+        <br>
+        <p>This is a simple example, in real game-engine there exists a lot of subsystems like these, so each of these managers 'MemoryManager' and 'RenderManager' makes use of the Logger for logging if their initialization was successful or not, and further more, our RenderManager allocates a lots of buffers for storing our vertices to be rendered, which is impossible unless our 'MemoryManager' is initialized before. "Hold on!", Doesn't this look familiar to the spider-man pointer meme? Different subsystems pointing at eachother. Refer <a href="#fig-1.1">Fig-1.1</a></p>
+        <div class="figure" id="fig-1.1">
+          <img src="https://i.pinimg.com/1200x/b6/26/72/b62672fe5c0c8c2951800a074a2c61a3.jpg"/>
+          <h5>Fig-1.1</h5>
+        </div>
+        <br>
+        <br>
+        <p>Enough of memes now, so from the discussion above we have a clear order of initialization in mind for our three-subsystems. We need to initialize the 'Logger' first, then the 'MemoryManager' and finally our 'RenderManager'. And for destruction we need to follow the opposite order. Refer to <a href="#fig-1.2">Fig-1.2</a> for a better understanding.</p>
+        <br>
+        <br>
+        <div class="figure" id="fig-1.2">
+          <img src="../assets/init_destroy_order_example.jpg"/>
+          <h5>Fig-1.2</h5>
+        </div>
+        <br>
+        <br>
+        <p>That said, let's try to progressively go from the approach that fails to the one that works, which will also develop our intuition why a certain approach works and some don't.</p>
+        <br>
+        <br>
+        <h3><b>1. [Unpredictable] Using Constructors & Destructors</b></h3>
+        <br>
+        <p>It is really tempting to create all these managers as a static/global variables in this manner and let the constructors and destructors do their jobs like so: </p>
+        <br>
+        <br>
+        <pre><code class="language-javascript">
+          // definition of all the relavant subsystem-classes
+          class Logger
+          {
+            public:
+              Logger()
+              {
+                // initialize logger
+              }
+            
+              ~Logger()
+              {
+                // destroy logger
+              }
+            
+              // ... other methods
+          };
+
+          class MemoryManager
+          {
+            public:
+              MemoryManager()
+              {
+                // initialize MemoryManager
+              }
+
+              ~MemoryManager()
+              {
+                // destroy MemoryManager
+              }
+
+              // ... other methods
+          };
+
+          class RenderManager
+          {
+            public:
+              RenderManager()
+              {
+                // initialize RenderManager
+              }
+
+              ~RenderManager()
+              {
+                // destroy RenderManager
+              }
+
+              // ...  other methods
+          };
+        </code></pre>
+        <br>
+        <br>
+        <p>Now this code-block below works alright, the Init() method calls the constructors of all three subsystems in the order that they are declared at compile time. "So, what's the problem?" you might ask.</p>
+        <br>
+        <br>
+        <pre><code class="language-javascript">
+          ...
+          // other stuff
+          ...
+
+          void Init()
+          {
+            static Logger m_Logger;
+            static MemoryManager m_MemoryManager;
+            static RenderManager m_RenderManager;
+          }
+
+          ...
+          // other stuff
+          ...
+          
+          int main(void)
+          {
+            Init();
+
+            ...
+            // other engine stuff
+            ...
+
+            return 0;
+          }
+        </code></pre>
+        <br>
+        <br>
+        <p>This will definitely break when you initialize or try to call the constructors in different C++ files (or across different translation units). As the C++ standard doesn't gurantee the order of static initialization across translation units.<br>This means the linker may initialize <span>MemoryManager</span> before <span>Logger</span> or <span>RenderManager</span> before <span>Logger</span>. Which will definitely lead to an undefined behaviour and errors, which is what we don't want to even linger near our project, right?</p>
+        <br>
+        <br>
+        <pre>
+          <code class="language-javascript">
+            // logger.cpp
+            Logger m_Logger;
+
+            // memory.cpp
+            MemoryManager m_MemoryManager;
+
+            // renderer.cpp
+            RenderManager m_RenderManager;
+          </code>
+        </pre>
+        <br>
+        <br>
+        <p>You might be curious that why can't we gurantee initialization order across different cpp files (i.e different translation units)? Let me explain: </p>
+        <br>
+        <br>
+        1. .cpp files are compiled independently into their respective object-files (.o files).
+        <br>
+        2. Each object file contains code, static objects and metadeta describing constructions that must run before main() -> the programs entry-point.
+        <br>
+        3. The linker collects all the object files, builds the final binary (our executable) and also emits tables of "things that must be initialized before main()".
+        <br>
+        4. Now, these table aren't ordered based on the declaration order of these instances. So no order is guranteed here.
+        <br>
+        <br>
+        <p>Now, this is clear that this approach won't work all the time and cannot be relied on. So, let's discuss the next approach that should naturally strike you by now. If not, then visit your nearest C++ doctor. "Just kidding XD.. lol!"</p>
+        <br>
+        <br>
+        
+        <p>NEXT-BLOG: <a href="../part2/part2.html">2. Viewing in graphics - The Orthographic Projection</a></p>
+        <br>
+        <br>
+        <h3><b>2. [Still not good enough] Using Lazy Singletons</b></h3>
+        <br>
+        <p>We can make use of something known as a <b>Lazy-Singleton</b>. Now within the class we add a method which returns the static instance by reference, and is only constructed on demand and not before main(), hence the name <span>"Lazy"</span>. So it'll be constructed the moment the get method is called, this is ensured by making the get-method a static-function. It can be coded something like this: </p>
+        <br>
+        <br>
+        <pre>
+          <code class="language-javascript">
+            class RenderManager
+            {
+              public:
+                static RenderManager& get()
+                {
+                  static RenderManger s_RenderManager;
+                  return s_RenderManager;
+                }
+                
+                ~RenderManager()
+                {
+                  // shutdown the manager
+                }
+            
+                // ensure only a single instance of RenderManager, that too constructed on demand
+                
+                RenderManager(const RenderManager& other) = delete; // don't allow copy constructor
+
+                RenderManager& operator=(const RenderManager&) = delete; // don't allow copy assignment   
+              private:
+                // make the constructor private so no other instance can be created
+                
+                RenderManager()
+                {
+                  // starting up what the RenderManager depends on, in the constructor
+                  Logger::get();
+                  MemoryManager::get();
+                }
+            };
+          </code>
+        </pre>
+        <br>
+        <br>
+        <p>This does solve our problem for the construction order, but still the destructor is called in an unpredictable manner. Some people work-around this issue by doing a dynamic allocation for the singleton, and building some extra abstractions for shutting down the system manually. Like so: </p>
+        <br>
+        <br>
+        <pre>
+          <code class="language-javascript">
+            static RenderManager& get()
+            {
+              static RenderManager* p_RenderManager = nullptr;
+              if(!p_RenderManager)
+              {
+                p_RenderManager = new RenderManager;
+              }
+
+              return *p_RenderManager;
+            }
+          </code>
+        </pre>
+        <br>
+        <br>
+        <p>Still, this isn't the elegant solution we are looking for. Let's take a look at a simple approach that is always guranteed to work.</p>
+        <br>
+        <br>
+        <h3><b>2. A simple yet reliable approach!</b></h3>
+        <br>
+        <br>
+        <p>The best, yet simple approach is to keep the constructor and destructor empty(i.e make it do nothing). And add explicit startup and shutdown methods to the class and that can be explicitly called as and when needed. Like so: </p>
+        <br>
+        <br>
+        <pre>
+          <code class="language-javascript">
+            class RenderManager
+            {
+              public:
+                RenderManger()
+                {
+                  // do nothing
+                }
+
+                ~RenderManager()
+                {
+                  // do nothing
+                }
+
+                void startup()
+                {
+                  // startup the manager
+                }
+
+                void shutdown()
+                {
+                  // shutdown the manager
+                }
+            };
+
+            // same for other managers
+          </code>
+        </pre>
+        <br>
+        <br>
+        <p>Now in main we can do it like this, for whatever subsystems/managers we require: </p>
+        <br>
+        <br>
+        <pre>
+          <code class="language-javascript">
+            // this does nothing yet
+            Logger m_Logger;
+            MemoryManager m_MemoryManager;
+            RenderManager m_RenderManager;
+
+            int main()
+            {
+              m_Logger.startup();
+              m_MemoryManager.startup();
+              m_RenderManager.startup();
+
+              // do all the jazz here
+
+              m_RenderManager.shutdown();
+              m_MemoryManager.shutdown();
+              m_Logger.shutdown();
+
+              return 0;
+            }
+          </code>
+        </pre>
+        <br>
+        <br>
+        <p>This might look tedious, but is always guranteed to work.</p>
+        <br>
+        <br>
+        <h3><b>Why do I need this, When I can put every global instance into a single main file?</b></h3>
+        <br>
+        <p>That's a totally valid question to ask! You can work around this by declaring all the global instances in a single file, which will call the constructors in the order of declaration and call the respective destructors in the opposite order. But here we must realize that we are making a tradeoff with control and clean-architecture. This approach gives less control over how objects are started and shutdown, also this leads to initialization of objects/managers that might not always be required, based on platforms or something. So, the approach we discussed above is always preferred while making a robust game engine.</p>
+        <br>
+        <br>
+        <p>Some references are taken from <a href="https://www.oreilly.com/library/view/game-engine-architecture/9781466560017/">Jason's book</a></p>
+        <br>
+        <br>
+        <p>NEXT-BLOG: <a href="#">2. Coming-soon!</a></p>
+        <br>
+        <br>
+      </div>
+      
+      <footer>
+          <p>&copy; 2025 Aayush Bade. All rights reserved.</p>
+      </footer>
+      
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+  </body>
+</html>
+
+
+
+
+
